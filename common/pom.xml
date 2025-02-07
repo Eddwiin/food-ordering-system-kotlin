@@ -5,11 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.food.ordering.system.kotlin</groupId>
-        <artifactId>order-domain</artifactId>
+        <artifactId>food-ordering-system-kotlin</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>order-domain-core</artifactId>
+    <artifactId>common</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>common-domain</module>
+    </modules>
 
     <properties>
     </properties>
@@ -78,10 +82,6 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.food.ordering.system.kotlin</groupId>
-            <artifactId>common-domain</artifactId>
         </dependency>
     </dependencies>
 
