@@ -6,6 +6,10 @@ import java.math.RoundingMode
 class Money(val amount: BigDecimal) {
     fun getAmount(): BigDecimal = amount
 
+    companion object {
+        val ZERO = Money(BigDecimal.ZERO)
+    }
+
     fun isGreaterThanZero(): Boolean {
         return amount != null && amount.compareTo(BigDecimal.ZERO) > 0
     }
@@ -22,8 +26,8 @@ class Money(val amount: BigDecimal) {
         return Money(setScale(amount.subtract(money.getAmount())))
     }
 
-    fun multiply(money: Money): Money {
-        return Money(setScale(amount.multiply(money.getAmount())))
+    fun multiply(multiplier: Int): Money {
+        return Money(setScale(amount.multiply(BigDecimal(multiplier))))
     }
 
     override fun equals(other: Any?): Boolean {
