@@ -1,5 +1,5 @@
 package com.food.ordering.system.kotlin.domain.valueobject
 
-import java.util.UUID
+import java.util.*
 
-class ProductId(uuid: UUID) : BaseId<UUID>(uuid)
+data class ProductId(val uuid: UUID) : BaseId<UUID>(uuid)

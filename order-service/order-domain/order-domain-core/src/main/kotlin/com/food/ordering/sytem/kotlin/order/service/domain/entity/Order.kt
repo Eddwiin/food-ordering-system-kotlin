@@ -8,7 +8,7 @@ import com.food.ordering.sytem.kotlin.order.service.domain.valueobject.StreetAdd
 import com.food.ordering.sytem.kotlin.order.service.domain.valueobject.TrackingId
 import java.util.*
 
-class Order(
+class Order private constructor(
     var customerId: CustomerId,
     var restaurantId: RestaurantId,
     var streetAddress: StreetAddress,
@@ -16,7 +16,7 @@ class Order(
     var items: List<OrderItem>,
     var trackingId: TrackingId?,
     var orderStatus: OrderStatus?,
-    var failureMessages: List<String>
+    var failureMessages: MutableList<String>
 ) : AggregateRoot<OrderId>() {
 
     companion object {
@@ -31,6 +31,40 @@ class Order(
         validateInitialOrder()
         validateTotalPrice()
         validateItemsPrice()
+    }
+
+    fun pay() {
+        if (orderStatus != OrderStatus.PENDING) {
+            throw OrderDomainException("Order is not in correct state for pay operation!")
+        }
+
+        orderStatus = OrderStatus.PAID
+    }
+
+    fun approve() {
+        if (orderStatus != OrderStatus.PAID) {
+            throw OrderDomainException("Order is not in correct state for approve operation!")
+        }
+
+        orderStatus = OrderStatus.APPROVED
+    }
+
+    fun initCancel(failureMessages: MutableList<String>) {
+        if (orderStatus != OrderStatus.PAID) {
+            throw OrderDomainException("Order is not in correct state for cancel operation!")
+        }
+
+        orderStatus = OrderStatus.CANCELLING
+        updateFailureMessages(failureMessages)
+    }
+
+    fun cancel(failureMessages: MutableList<String>) {
+        if (orderStatus != OrderStatus.PAID || orderStatus != OrderStatus.CANCELLING) {
+            throw OrderDomainException("Order is not in correct state for cancel operation!")
+        }
+
+        orderStatus = OrderStatus.CANCELLED
+        updateFailureMessages(failureMessages)
     }
 
     private fun validateInitialOrder() {
@@ -80,6 +114,18 @@ class Order(
         }
     }
 
+    private fun updateFailureMessages(failureMessages: MutableList<String>) {
+        if (this.failureMessages != null && failureMessages != null) {
+            failureMessages.filter { failureMessage -> !failureMessage.isEmpty() }.let {
+                this.failureMessages.addAll(it)
+            }
+        }
+
+        if (this.failureMessages == null) {
+            this.failureMessages = failureMessages;
+        }
+    }
+
     class Builder {
         var orderId: OrderId? = null
         var customerId: CustomerId? = null
@@ -89,7 +135,7 @@ class Order(
         var orderItem: List<OrderItem>? = null
         var trackId: TrackingId? = null
         var orderStatus: OrderStatus? = null
-        var failureMessages: List<String>? = null
+        var failureMessages: MutableList<String>? = null
 
         fun orderId(orderId: OrderId) = apply { this.orderId = orderId }
         fun restaurantId(restaurantId: RestaurantId) = apply { this.restaurantId = restaurantId }
@@ -99,7 +145,7 @@ class Order(
         fun orderItem(orderItem: List<OrderItem>) = apply { this.orderItem = orderItem }
         fun trackId(trackId: TrackingId) = apply { this.trackId = trackId }
         fun orderStatus(orderStatus: OrderStatus) = apply { this.orderStatus = orderStatus }
-        fun failureMessages(failureMessages: List<String>) = apply { this.failureMessages = failureMessages }
+        fun failureMessages(failureMessages: MutableList<String>) = apply { this.failureMessages = failureMessages }
 
         fun build() = Order(
             customerId = customerId!!,
@@ -109,7 +155,7 @@ class Order(
             items = orderItem!!,
             trackingId = trackId,
             orderStatus = orderStatus,
-            failureMessages = failureMessages ?: emptyList()
+            failureMessages = failureMessages ?: mutableListOf()
         )
     }
 }
