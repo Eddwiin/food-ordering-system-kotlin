@@ -1,12 +1,12 @@
 package com.food.ordering.sytem.kotlin.order.service.domain.dto.track
 
 import com.food.ordering.system.kotlin.domain.valueobject.OrderStatus
-import com.food.ordering.sytem.kotlin.order.service.domain.valueobject.TrackingId
 import jakarta.validation.constraints.NotNull
+import java.util.*
 
 class TrackOrderResponse(
     @field:NotNull
-    val orderTrackingId: TrackingId,
+    val orderTrackingId: UUID,
     @field:NotNull
     val orderStatus: OrderStatus,
     val failureMessages: MutableList<String>
@@ -16,11 +16,11 @@ class TrackOrderResponse(
     }
 
     class Builder {
-        private var orderTrackingId: TrackingId? = null
+        private var orderTrackingId: UUID? = null
         private var orderStatus: OrderStatus? = null
         private var failureMessages: MutableList<String> = mutableListOf()
 
-        fun orderTrackingId(orderTrackingId: TrackingId) = apply { this.orderTrackingId = orderTrackingId }
+        fun orderTrackingId(orderTrackingId: UUID) = apply { this.orderTrackingId = orderTrackingId }
         fun orderStatus(orderStatus: OrderStatus) = apply { this.orderStatus = orderStatus }
         fun failureMessages(failureMessages: MutableList<String>) = apply { this.failureMessages = failureMessages }
 

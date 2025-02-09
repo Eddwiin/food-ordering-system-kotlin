@@ -8,6 +8,7 @@ import com.food.ordering.sytem.kotlin.order.service.domain.dto.create.CreateOrde
 import com.food.ordering.sytem.kotlin.order.service.domain.dto.create.CreateOrderResponse
 import com.food.ordering.sytem.kotlin.order.service.domain.dto.create.OrderAddress
 import com.food.ordering.sytem.kotlin.order.service.domain.dto.create.OrderItem
+import com.food.ordering.sytem.kotlin.order.service.domain.dto.track.TrackOrderResponse
 import com.food.ordering.sytem.kotlin.order.service.domain.entity.Order
 import com.food.ordering.sytem.kotlin.order.service.domain.entity.Product
 import com.food.ordering.sytem.kotlin.order.service.domain.entity.Restaurant
@@ -38,6 +39,14 @@ class OrderDataMapper {
         return CreateOrderResponse.builder()
             .orderTrackingId(order.trackingId!!.value!!)
             .orderStatus(order.orderStatus!!)
+            .build()
+    }
+
+    fun orderToTrackOrderResponse(order: Order): TrackOrderResponse {
+        return TrackOrderResponse.builder()
+            .orderTrackingId(order.trackingId!!.value!!)
+            .orderStatus(order.orderStatus!!)
+            .failureMessages(order.failureMessages)
             .build()
     }
 
