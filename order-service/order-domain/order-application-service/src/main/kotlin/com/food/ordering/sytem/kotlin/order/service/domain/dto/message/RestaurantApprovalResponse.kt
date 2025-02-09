@@ -3,7 +3,7 @@ package com.food.ordering.sytem.kotlin.order.service.domain.dto.message
 import com.food.ordering.system.kotlin.domain.valueobject.OrderApprovalStatus
 import java.time.Instant
 
-class RestaurantApproval(
+class RestaurantApprovalResponse(
     val id: String,
     val sagaId: String,
     val orderId: String,
@@ -35,8 +35,8 @@ class RestaurantApproval(
 
         fun failureMessage(failureMessage: List<String>) = apply { this.failureMessage.addAll(failureMessage) }
 
-        fun build(): RestaurantApproval {
-            return RestaurantApproval(
+        fun build(): RestaurantApprovalResponse {
+            return RestaurantApprovalResponse(
                 id = id,
                 sagaId = sagaId,
                 orderId = orderId,

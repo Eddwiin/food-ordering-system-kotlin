@@ -6,15 +6,15 @@ import java.util.*
 
 class CreateOrderCommand(
     @field:NotNull
-    private val customerId: UUID,
+    val customerId: UUID,
     @field:NotNull
-    private val restaurantId: UUID,
+    val restaurantId: UUID,
     @field:NotNull
-    private val price: BigDecimal,
+    val price: BigDecimal,
     @field:NotNull
-    private val items: List<OrderItem>,
+    val items: List<OrderItem>,
     @field:NotNull
-    private val address: OrderAddress
+    val address: OrderAddress
 ) {
     companion object {
         fun builder() = Builder()

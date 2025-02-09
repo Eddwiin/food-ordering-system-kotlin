@@ -6,8 +6,8 @@ import com.food.ordering.system.kotlin.domain.valueobject.ProductId
 
 class Product(
     val productId: ProductId,
-    var name: String,
-    var price: Money,
+    var name: String? = null,
+    var price: Money? = null,
 ) : BaseEntity<ProductId>() {
     init {
         this.id = productId
