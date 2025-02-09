@@ -22,7 +22,8 @@ open class OrderCreateCommandHandler(
     val orderRepository: OrderRepository,
     val restaurantRepository: RestaurantRepository,
     val customerRepository: CustomerRepository,
-    val orderDataMapper: OrderDataMapper
+    val orderDataMapper: OrderDataMapper,
+    val applicationDomainEventPublisher: ApplicationDomainEventPublisher
 ) {
     private val logger = KotlinLogging.logger {}
 
@@ -34,6 +35,7 @@ open class OrderCreateCommandHandler(
         val orderCreatedEvent: OrderCreatedEvent = orderDomainService.validateAndInitiateOrderMethod(order, restaurant)
         val orderResult: Order = save(order)
         logger.info { "Order is created with id ${orderResult.id!!.value}" }
+        applicationDomainEventPublisher.publish(orderCreatedEvent)
         return orderDataMapper.orderToCreateToCreateOrderResponse(orderResult)
     }
 
