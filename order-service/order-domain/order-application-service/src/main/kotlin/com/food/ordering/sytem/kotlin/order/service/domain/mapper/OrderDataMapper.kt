@@ -35,10 +35,11 @@ class OrderDataMapper {
             .build()
     }
 
-    fun orderToCreateToCreateOrderResponse(order: Order): CreateOrderResponse {
+    fun orderToCreateToCreateOrderResponse(order: Order, message: String): CreateOrderResponse {
         return CreateOrderResponse.builder()
             .orderTrackingId(order.trackingId!!.value!!)
             .orderStatus(order.orderStatus!!)
+            .message(message)
             .build()
     }
 

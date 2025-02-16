@@ -12,4 +12,9 @@ class Product(
     init {
         this.id = productId
     }
+
+    fun updateWithConfirmedNameAndPrice(name: String?, price: Money?) {
+        this.name = name;
+        this.price = price;
+    }
 }
