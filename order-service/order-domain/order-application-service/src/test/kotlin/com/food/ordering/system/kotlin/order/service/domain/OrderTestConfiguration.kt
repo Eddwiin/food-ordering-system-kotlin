@@ -1,16 +1,15 @@
 package com.food.ordering.system.kotlin.order.service.domain
 
-import com.food.ordering.sytem.kotlin.order.service.domain.OrderDomainService
-import com.food.ordering.sytem.kotlin.order.service.domain.OrderDomainServiceImpl
-import com.food.ordering.sytem.kotlin.order.service.domain.ports.output.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
-import com.food.ordering.sytem.kotlin.order.service.domain.ports.output.repository.CustomerRepository
-import com.food.ordering.sytem.kotlin.order.service.domain.ports.output.repository.OrderRepository
-import com.food.ordering.sytem.kotlin.order.service.domain.ports.output.repository.RestaurantRepository
+import com.food.ordering.system.kotlin.order.service.domain.mapper.OrderDataMapper
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.CustomerRepository
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.OrderRepository
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.RestaurantRepository
 import org.mockito.Mockito
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 
-@SpringBootApplication(scanBasePackages = ["com.food.ordering.system.kotlin.order"])
+@SpringBootApplication(scanBasePackages = ["com.food.ordering.system.kotlin"])
 open class OrderTestConfiguration {
     @Bean
     open fun orderCreatedPaymentRequestMessagePublisher(): OrderCreatedPaymentRequestMessagePublisher {
@@ -40,6 +39,11 @@ open class OrderTestConfiguration {
     @Bean
     open fun restaurantRepository(): RestaurantRepository {
         return Mockito.mock(RestaurantRepository::class.java)
+    }
+
+    @Bean
+    open fun orderDataMapper(): OrderDataMapper {
+        return Mockito.mock(OrderDataMapper::class.java)
     }
 
     @Bean

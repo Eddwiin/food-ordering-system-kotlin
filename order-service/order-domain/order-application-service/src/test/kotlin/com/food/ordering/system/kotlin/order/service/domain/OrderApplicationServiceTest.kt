@@ -1,32 +1,36 @@
 package com.food.ordering.system.kotlin.order.service.domain
 
 import com.food.ordering.system.kotlin.domain.valueobject.*
-import com.food.ordering.sytem.kotlin.order.service.domain.OrderDomainService
-import com.food.ordering.sytem.kotlin.order.service.domain.dto.create.CreateOrderCommand
-import com.food.ordering.sytem.kotlin.order.service.domain.dto.create.OrderAddress
-import com.food.ordering.sytem.kotlin.order.service.domain.dto.create.OrderItem
-import com.food.ordering.sytem.kotlin.order.service.domain.entity.Customer
-import com.food.ordering.sytem.kotlin.order.service.domain.entity.Order
-import com.food.ordering.sytem.kotlin.order.service.domain.entity.Product
-import com.food.ordering.sytem.kotlin.order.service.domain.entity.Restaurant
-import com.food.ordering.sytem.kotlin.order.service.domain.mapper.OrderDataMapper
-import com.food.ordering.sytem.kotlin.order.service.domain.ports.output.repository.CustomerRepository
-import com.food.ordering.sytem.kotlin.order.service.domain.ports.output.repository.OrderRepository
-import com.food.ordering.sytem.kotlin.order.service.domain.ports.output.repository.RestaurantRepository
+import com.food.ordering.system.kotlin.order.service.domain.dto.create.CreateOrderCommand
+import com.food.ordering.system.kotlin.order.service.domain.dto.create.OrderAddress
+import com.food.ordering.system.kotlin.order.service.domain.dto.create.OrderItem
+import com.food.ordering.system.kotlin.order.service.domain.entity.Customer
+import com.food.ordering.system.kotlin.order.service.domain.entity.Order
+import com.food.ordering.system.kotlin.order.service.domain.entity.Product
+import com.food.ordering.system.kotlin.order.service.domain.entity.Restaurant
+import com.food.ordering.system.kotlin.order.service.domain.mapper.OrderDataMapper
+import com.food.ordering.system.kotlin.order.service.domain.ports.input.service.OrderApplicationService
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.CustomerRepository
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.OrderRepository
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.RestaurantRepository
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import java.math.BigDecimal
 import java.util.*
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = [OrderTestConfiguration::class])
 class OrderApplicationServiceTest(
     @Autowired
-    private val orderDomainService: OrderDomainService,
+    private val orderApplicationService: OrderApplicationService,
 
     @Autowired
     private val orderDataMapper: OrderDataMapper,
@@ -39,6 +43,12 @@ class OrderApplicationServiceTest(
 
     @Autowired
     private val restaurantRepository: RestaurantRepository,
+
+    @MockBean
+    private var orderCreateCommandHandler: OrderCreateCommandHandler,
+
+    @MockBean
+    private var orderTrackCommandHandler: OrderTrackCommandHandler,
 
     private val createOrderCommand: CreateOrderCommand,
     private val createOrderCommandWrongPrice: CreateOrderCommand,
@@ -169,5 +179,13 @@ class OrderApplicationServiceTest(
             )
         ).thenReturn(Optional.of(restaurantResponse))
         Mockito.`when`(orderRepository.save(any<Order>())).thenReturn(order)
+    }
+
+    @Test
+    fun testCreateOrder() {
+        val createOrderResponse = orderApplicationService.createOrder(createOrderCommand)
+        assertEquals(OrderStatus.PENDING, createOrderResponse.orderStatus)
+        assertEquals("Order created successfully", createOrderResponse.message)
+        assertNotNull(createOrderResponse.orderTrackingId)
     }
 }

@@ -4,7 +4,6 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 class Money(val amount: BigDecimal) {
-    fun getAmount(): BigDecimal = amount
 
     companion object {
         val ZERO = Money(BigDecimal.ZERO)
@@ -15,15 +14,15 @@ class Money(val amount: BigDecimal) {
     }
 
     fun isGreaterThan(money: Money): Boolean {
-        return amount != null && money.getAmount().compareTo(BigDecimal.ZERO) > 0
+        return amount != null && money.amount.compareTo(BigDecimal.ZERO) > 0
     }
 
     fun add(money: Money): Money {
-        return Money(setScale(amount.add(money.getAmount())))
+        return Money(setScale(amount.add(money.amount)))
     }
 
     fun subtract(money: Money): Money {
-        return Money(setScale(amount.subtract(money.getAmount())))
+        return Money(setScale(amount.subtract(money.amount)))
     }
 
     fun multiply(multiplier: Int): Money {
