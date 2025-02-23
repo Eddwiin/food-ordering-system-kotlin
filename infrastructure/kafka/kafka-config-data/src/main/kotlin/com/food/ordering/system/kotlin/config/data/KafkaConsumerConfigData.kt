@@ -5,20 +5,20 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "kafka-consumer-config")
-open class KafkaConsumerConfigData {
-    private val keyDeserializer: String = ""
-    private val valueDeserializer: String = ""
-    private val autoOffsetReset: String = ""
-    private val specificAvroReaderKey: String = ""
-    private val specificAvroReader: String = ""
-    private val batchListener: Boolean = false
-    private val autoStartup: Boolean = false
-    private val concurrencyLevel: Int = 0
-    private val sessionTimeoutMs: Int = 0
-    private val heartbeatIntervalMs: Int = 0
-    private val maxPollIntervalMs: Int = 0
-    private val pollTimeoutMs: Long = 0
-    private val maxPollRecords: Int = 0
-    private val maxPartitionFetchBytesDefault: Int = 0
-    private val maxPartitionFetchBytesBoostFactor: Int = 0
-}
+open class KafkaConsumerConfigData(
+    val keyDeserializer: String = "",
+    val valueDeserializer: String = "",
+    val autoOffsetReset: String = "",
+    val specificAvroReaderKey: String = "",
+    val specificAvroReader: String = "",
+    val batchListener: Boolean = false,
+    val autoStartup: Boolean = false,
+    val concurrencyLevel: Int = 0,
+    val sessionTimeoutMs: Int = 0,
+    val heartbeatIntervalMs: Int = 0,
+    val maxPollIntervalMs: Int = 0,
+    val pollTimeoutMs: Long = 0,
+    val maxPollRecords: Int = 0,
+    val maxPartitionFetchBytesDefault: Int = 0,
+    val maxPartitionFetchBytesBoostFactor: Int = 0
+)
