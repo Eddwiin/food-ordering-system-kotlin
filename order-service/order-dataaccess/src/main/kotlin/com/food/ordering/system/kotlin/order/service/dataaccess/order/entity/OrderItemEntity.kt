@@ -14,7 +14,7 @@ data class OrderItemEntity(
     @Id
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "ORDER_ID")
-    val order: OrderEntity? = null,
+    var order: OrderEntity? = null,
 
     val productId: UUID? = null,
     val price: BigDecimal? = null,

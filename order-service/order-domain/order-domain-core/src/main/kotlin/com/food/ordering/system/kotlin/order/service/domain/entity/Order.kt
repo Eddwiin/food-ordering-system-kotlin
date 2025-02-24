@@ -18,6 +18,7 @@ class Order private constructor(
 
     companion object {
         fun builder() = Builder();
+        val FAILURE_MESSAGE_DELIMITER = ","
     }
 
     init {

@@ -12,7 +12,7 @@ data class OrderAddressEntity(
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "ORDER_ID")
-    val order: OrderEntity? = null,
+    var order: OrderEntity? = null,
 
     val street: String? = null,
     val postalCode: String? = null,
