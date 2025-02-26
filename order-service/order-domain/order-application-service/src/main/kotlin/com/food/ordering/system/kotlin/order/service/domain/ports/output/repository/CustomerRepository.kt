@@ -6,6 +6,5 @@ import java.util.*
 
 @Repository
 interface CustomerRepository {
-
     fun findCustomer(uuid: UUID): Optional<Customer>
 }

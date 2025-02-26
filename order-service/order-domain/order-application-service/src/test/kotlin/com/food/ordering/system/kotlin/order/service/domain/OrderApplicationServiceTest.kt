@@ -150,7 +150,7 @@ class OrderApplicationServiceTest(
             )
             .build()
 
-        val customer = Customer();
+        val customer = Customer(CustomerId(customerEntity.id));
         customer.id = CustomerId(CUSTOMER_ID)
 
         val restaurantResponse = Restaurant.Builder()
