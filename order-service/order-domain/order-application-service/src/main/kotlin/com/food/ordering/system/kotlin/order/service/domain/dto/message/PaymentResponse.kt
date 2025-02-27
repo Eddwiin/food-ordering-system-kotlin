@@ -12,7 +12,8 @@ class PaymentResponse(
     val customerId: String,
     val price: BigDecimal,
     val createdAt: Instant,
-    val paymentStatus: PaymentStatus
+    val paymentStatus: PaymentStatus,
+    val failureMessages: List<String>
 ) {
     companion object {
         fun builder() = PaymentResponseBuilder()
@@ -27,6 +28,7 @@ class PaymentResponse(
         private var price: BigDecimal = BigDecimal.ZERO
         private var createdAt: Instant = Instant.now()
         private var paymentStatus: PaymentStatus = PaymentStatus.COMPLETED
+        private var failureMessages: List<String> = emptyList()
 
         fun id(id: String) = apply { this.id = id }
         fun sagaId(sagaId: String) = apply { this.sagaId = sagaId }
@@ -36,6 +38,7 @@ class PaymentResponse(
         fun price(price: BigDecimal) = apply { this.price = price }
         fun createdAt(createdAt: Instant) = apply { this.createdAt = createdAt }
         fun paymentStatus(paymentStatus: PaymentStatus) = apply { this.paymentStatus = paymentStatus }
+        fun failureMessages(failureMessages: List<String>) = apply { this.failureMessages = failureMessages }
 
         fun build(): PaymentResponse {
             return PaymentResponse(
@@ -46,7 +49,8 @@ class PaymentResponse(
                 customerId = this.customerId,
                 price = this.price,
                 createdAt = this.createdAt,
-                paymentStatus = this.paymentStatus
+                paymentStatus = this.paymentStatus,
+                failureMessages = this.failureMessages
             )
         }
     }

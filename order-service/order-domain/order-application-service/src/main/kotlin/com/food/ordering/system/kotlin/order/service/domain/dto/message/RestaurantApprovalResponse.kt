@@ -10,7 +10,7 @@ class RestaurantApprovalResponse(
     val restaurantId: String,
     val createdAt: Instant,
     val orderApprovalStatus: OrderApprovalStatus,
-    val failureMessage: MutableList<String>
+    val failureMessages: MutableList<String>
 ) {
     companion object {
         fun builder() = Builder()
@@ -23,7 +23,7 @@ class RestaurantApprovalResponse(
         private lateinit var restaurantId: String
         private lateinit var createdAt: Instant
         private lateinit var orderApprovalStatus: OrderApprovalStatus
-        private val failureMessage: MutableList<String> = mutableListOf()
+        private val failureMessages: MutableList<String> = mutableListOf()
 
         fun id(id: String) = apply { this.id = id }
         fun sagaId(sagaId: String) = apply { this.sagaId = sagaId }
@@ -33,7 +33,7 @@ class RestaurantApprovalResponse(
         fun orderApprovalStatus(orderApprovalStatus: OrderApprovalStatus) =
             apply { this.orderApprovalStatus = orderApprovalStatus }
 
-        fun failureMessage(failureMessage: List<String>) = apply { this.failureMessage.addAll(failureMessage) }
+        fun failuresMessage(failureMessages: List<String>) = apply { this.failureMessages.addAll(failureMessages) }
 
         fun build(): RestaurantApprovalResponse {
             return RestaurantApprovalResponse(
@@ -43,7 +43,7 @@ class RestaurantApprovalResponse(
                 restaurantId = restaurantId,
                 createdAt = createdAt,
                 orderApprovalStatus = orderApprovalStatus,
-                failureMessage = failureMessage
+                failureMessages = failureMessages
             )
         }
     }
