@@ -7,5 +7,5 @@ import java.time.ZonedDateTime
 class OrderCancelledEvent(
     override val order: Order,
     override val createdAt: ZonedDateTime,
-    orderCancelledEventDomainEventPublisher: DomainEventPublisher<com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent>
-) : com.food.ordering.system.kotlin.order.service.domain.event.OrderEvent(order, createdAt)
+    orderCancelledEventDomainEventPublisher: DomainEventPublisher<OrderCancelledEvent>
+) : OrderEvent(order, createdAt)
