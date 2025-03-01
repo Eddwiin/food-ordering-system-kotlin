@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated
 
 @Validated
 @Service
-class PaymentResponseMessageListenerImpl :
+open class PaymentResponseMessageListenerImpl :
     com.food.ordering.system.kotlin.order.service.domain.ports.input.message.listener.payment.PaymentResponseListener {
     private val logger = KotlinLogging.logger {}
 

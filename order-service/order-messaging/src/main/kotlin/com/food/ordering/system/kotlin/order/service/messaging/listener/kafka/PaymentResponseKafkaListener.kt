@@ -13,7 +13,7 @@ import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 
 @Component
-class PaymentResponseKafkaListener(
+open class PaymentResponseKafkaListener(
     val paymentResponseMessageListener: PaymentResponseListener,
     val orderMessagingDataMapper: OrderMessagingDataMapper
 ) : KafkaConsumer<PaymentResponseAvroModel> {
@@ -21,7 +21,7 @@ class PaymentResponseKafkaListener(
     private val logger = KotlinLogging.logger {}
 
     @KafkaListener(
-        id = "\${kafka.consumer.config.payment.consumer.group.id}",
+        id = "\${kafka-consumer-config.payment-consumer-group-id}",
         topics = ["order-service.payment-response-topic-name"]
     )
     override fun receive(

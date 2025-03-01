@@ -14,19 +14,19 @@ import java.io.Serializable
 
 @Configuration
 open class KafkaProducerConfig<K : Serializable, V : SpecificRecordBase>(
-    val kafkaConfigData: KafkaConfigData? = null,
+    val kafkaConfigData: KafkaConfigData,
     val kafkaProducerConfigData: KafkaProducerConfigData
 ) {
 
     @Bean
-    open fun producerConfig(): MutableMap<String, Any?> {
+    open fun producerConfig(): Map<String, Any?> {
         val props: MutableMap<String, Any?> = HashMap()
-        props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaConfigData!!.bootstrapServers
-        props[kafkaConfigData!!.schemaRegistryUrlKey] = kafkaConfigData.schemaRegistryUrl
+        props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaConfigData.bootstrapServers
+        props[kafkaConfigData.schemaRegistryUrlKey] = kafkaConfigData.schemaRegistryUrl
         props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = kafkaProducerConfigData.keySerializerClass
         props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = kafkaProducerConfigData.valueSerializerClass
-        props[ProducerConfig.BATCH_SIZE_CONFIG] = kafkaProducerConfigData.batchSize!! *
-                kafkaProducerConfigData.batchSizeBoostFactor!!
+        props[ProducerConfig.BATCH_SIZE_CONFIG] =
+            kafkaProducerConfigData.batchSize!! * kafkaProducerConfigData.batchSizeBoostFactor!!
         props[ProducerConfig.LINGER_MS_CONFIG] = kafkaProducerConfigData.lingerMs
         props[ProducerConfig.COMPRESSION_TYPE_CONFIG] = kafkaProducerConfigData.compressionType
         props[ProducerConfig.ACKS_CONFIG] = kafkaProducerConfigData.acks
