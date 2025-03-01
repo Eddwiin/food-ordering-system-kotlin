@@ -12,7 +12,7 @@ import java.io.Serializable
 import java.util.concurrent.CompletableFuture
 
 @Component
-class KafkaProducerImpl<K : Serializable, V : SpecificRecordBase>(
+open class KafkaProducerImpl<K : Serializable, V : SpecificRecordBase>(
     val kafkaTemplate: KafkaTemplate<K, V>
 ) : KafkaProducer<K, V> {
     private val logger = KotlinLogging.logger {}

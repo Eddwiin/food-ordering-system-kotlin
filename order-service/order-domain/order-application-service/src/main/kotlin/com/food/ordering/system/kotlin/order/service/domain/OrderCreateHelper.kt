@@ -4,7 +4,11 @@ import com.food.ordering.system.kotlin.order.service.domain.dto.create.CreateOrd
 import com.food.ordering.system.kotlin.order.service.domain.entity.Customer
 import com.food.ordering.system.kotlin.order.service.domain.entity.Order
 import com.food.ordering.system.kotlin.order.service.domain.entity.Restaurant
+import com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent
+import com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException
+import com.food.ordering.system.kotlin.order.service.domain.mapper.OrderDataMapper
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
+import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.CustomerRepository
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.OrderRepository
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.RestaurantRepository
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -14,21 +18,21 @@ import java.util.*
 
 @Component
 open class OrderCreateHelper(
-    val orderDomainService: com.food.ordering.system.kotlin.order.service.domain.OrderDomainService,
+    val orderDomainService: OrderDomainService,
     val orderRepository: OrderRepository,
     val restaurantRepository: RestaurantRepository,
-    val customerRepository: com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.CustomerRepository,
-    val orderDataMapper: com.food.ordering.system.kotlin.order.service.domain.mapper.OrderDataMapper,
+    val customerRepository: CustomerRepository,
+    val orderDataMapper: OrderDataMapper,
     val orderCreatedPaymentRequestMessagePublisher: OrderCreatedPaymentRequestMessagePublisher
 ) {
     private val logger = KotlinLogging.logger {}
 
     @Transactional
-    open fun persistOrder(createOrderCommand: CreateOrderCommand): com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent {
+    open fun persistOrder(createOrderCommand: CreateOrderCommand): OrderCreatedEvent {
         checkCustomer(createOrderCommand.customerId)
         val restaurant: Restaurant = checkRestaurant(createOrderCommand)
         val order: Order = orderDataMapper.createOrderCommandToOrder(createOrderCommand)
-        val orderCreatedEvent: com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent =
+        val orderCreatedEvent: OrderCreatedEvent =
             orderDomainService.validateAndInitiateOrderMethod(
                 order,
                 restaurant,
@@ -44,19 +48,19 @@ open class OrderCreateHelper(
 
         if (customer.isEmpty) {
             logger.warn { "Could not found customer id with $customerId" }
-            throw com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException("Could not found customer id with $customerId")
+            throw OrderDomainException("Could not found customer id with $customerId")
         }
     }
 
     private fun checkRestaurant(createOrderCommand: CreateOrderCommand): Restaurant {
         val restaurant: Restaurant = orderDataMapper.createOrderCommandToRestaurant(createOrderCommand)
-        val optionalRestaurant: Optional<Restaurant> = restaurantRepository.findRestaurantInformation(restaurant)
+        val optionalRestaurant = restaurantRepository.findRestaurantInformation(restaurant)
 
-        return if (optionalRestaurant.isEmpty) {
+        return if (optionalRestaurant == null) {
             logger.warn { "Could not found restaurant with restaurant id  ${createOrderCommand.restaurantId}" }
-            throw com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException("Could not found restaurant with restaurant id ${createOrderCommand.restaurantId}")
+            throw OrderDomainException("Could not found restaurant with restaurant id ${createOrderCommand.restaurantId}")
         } else {
-            optionalRestaurant.get()
+            optionalRestaurant
         }
     }
 
@@ -65,7 +69,7 @@ open class OrderCreateHelper(
 
         if (orderResult == null) {
             logger.error { "Could not save order with id ${order.id}" }
-            throw com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException("Could not save order with id ${order.id}")
+            throw OrderDomainException("Could not save order with id ${order.id}")
         }
         logger.info { "Order is saved with id ${orderResult.id}" }
         return orderResult

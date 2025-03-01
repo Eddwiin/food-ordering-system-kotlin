@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.mapper
+package com.food.ordering.system.kotlin.order.service.messaging.mapper
 
 import com.food.ordering.system.kotlin.domain.valueobject.OrderApprovalStatus
 import com.food.ordering.system.kotlin.domain.valueobject.PaymentStatus

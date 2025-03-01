@@ -7,7 +7,7 @@ import com.food.ordering.system.kotlin.order.service.domain.ports.output.reposit
 import org.springframework.stereotype.Component
 
 @Component
-class RestaurantRepositoryImpl(
+open class RestaurantRepositoryImpl(
     val restaurantJpaRepository: RestaurantJpaRepository,
     val restaurantDataAccessMapper: RestaurantDataAccessMapper
 ) : RestaurantRepository {

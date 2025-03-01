@@ -150,7 +150,7 @@ class OrderApplicationServiceTest(
             )
             .build()
 
-        val customer = Customer(CustomerId(customerEntity.id));
+        val customer = Customer(CustomerId(CUSTOMER_ID));
         customer.id = CustomerId(CUSTOMER_ID)
 
         val restaurantResponse = Restaurant.Builder()
@@ -177,7 +177,7 @@ class OrderApplicationServiceTest(
                     createOrderCommand
                 )
             )
-        ).thenReturn(Optional.of(restaurantResponse))
+        ).thenReturn(restaurantResponse)
         Mockito.`when`(orderRepository.save(any<Order>())).thenReturn(order)
     }
 

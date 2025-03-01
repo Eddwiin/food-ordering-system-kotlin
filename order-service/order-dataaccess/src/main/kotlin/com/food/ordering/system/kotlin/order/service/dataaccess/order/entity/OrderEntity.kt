@@ -20,7 +20,7 @@ data class OrderEntity(
 
     @OneToOne(mappedBy = "order", cascade = [CascadeType.ALL])
     val address: OrderAddressEntity? = null,
-    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "orderAddress", orphanRemoval = true)
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "order", orphanRemoval = true)
     val items: List<OrderItemEntity> = emptyList()
 ) {
     companion object {

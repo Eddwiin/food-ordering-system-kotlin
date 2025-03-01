@@ -6,11 +6,12 @@ import com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEv
 import com.food.ordering.system.kotlin.order.service.domain.mapper.OrderDataMapper
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-open class OrderCreateCommandHandler(
+open class OrderCreateCommandHandler @Autowired constructor(
     val orderDataMapper: OrderDataMapper,
     val orderCreateHelper: OrderCreateHelper,
     val orderCreatedPaymentRequestMessagePublisher: OrderCreatedPaymentRequestMessagePublisher

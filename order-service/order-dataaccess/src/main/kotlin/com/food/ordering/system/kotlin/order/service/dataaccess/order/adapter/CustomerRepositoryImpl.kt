@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class CustomerRepositoryImpl(
+open class CustomerRepositoryImpl(
     val customerJpaRepository: CustomerJpaRepository,
     val customerDataAccessMapper: CustomerDataAccessMapper
 ) : CustomerRepository {

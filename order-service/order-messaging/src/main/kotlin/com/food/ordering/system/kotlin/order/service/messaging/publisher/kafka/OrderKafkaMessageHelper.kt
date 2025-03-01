@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.publisher.kafka
+package com.food.ordering.system.kotlin.order.service.messaging.publisher.kafka
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.kafka.support.SendResult

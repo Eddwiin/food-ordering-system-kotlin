@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated
 
 @Validated
 @Service
-class RestaurantApprovalResponseMessageListenerImpl : RestaurantApprovalResponseMessageListener {
+open class RestaurantApprovalResponseMessageListenerImpl : RestaurantApprovalResponseMessageListener {
     private val logger = KotlinLogging.logger {}
 
     override fun orderApproved(restaurantApprovalResponse: RestaurantApprovalResponse) {

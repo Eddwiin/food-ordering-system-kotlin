@@ -4,6 +4,9 @@ import com.food.ordering.system.kotlin.domain.event.publisher.DomainEventPublish
 import com.food.ordering.system.kotlin.order.service.domain.entity.Order
 import com.food.ordering.system.kotlin.order.service.domain.entity.Product
 import com.food.ordering.system.kotlin.order.service.domain.entity.Restaurant
+import com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent
+import com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent
+import com.food.ordering.system.kotlin.order.service.domain.event.OrderPaidEvent
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -16,14 +19,14 @@ class OrderDomainServiceImpl() : OrderDomainService {
     override fun validateAndInitiateOrderMethod(
         order: Order,
         restaurant: Restaurant,
-        orderCreatedEventDomainEventPublisher: DomainEventPublisher<com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent>
-    ): com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent {
+        orderCreatedEventDomainEventPublisher: DomainEventPublisher<OrderCreatedEvent>
+    ): OrderCreatedEvent {
         validateRestaurant(restaurant);
         setOrderProductInformation(order, restaurant)
         order.validateOrder()
         order.initializeOrder()
         logger.info { "Order with id: ${order.id!!.value} is initiated" }
-        return com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent(
+        return OrderCreatedEvent(
             order,
             ZonedDateTime.now(ZoneId.of(UTC)),
             orderCreatedEventDomainEventPublisher
@@ -33,11 +36,11 @@ class OrderDomainServiceImpl() : OrderDomainService {
 
     override fun payOrder(
         order: Order,
-        orderPaidEventDomainEventPublisher: DomainEventPublisher<com.food.ordering.system.kotlin.order.service.domain.event.OrderPaidEvent>
-    ): com.food.ordering.system.kotlin.order.service.domain.event.OrderPaidEvent {
+        orderPaidEventDomainEventPublisher: DomainEventPublisher<OrderPaidEvent>
+    ): OrderPaidEvent {
         order.pay()
         logger.info { "Order with id: ${order.id!!.value} is paid" }
-        return com.food.ordering.system.kotlin.order.service.domain.event.OrderPaidEvent(
+        return OrderPaidEvent(
             order,
             ZonedDateTime.now(ZoneId.of(UTC)),
             orderPaidEventDomainEventPublisher
@@ -52,11 +55,11 @@ class OrderDomainServiceImpl() : OrderDomainService {
     override fun cancelOrderPayment(
         order: Order,
         failureMessages: MutableList<String>,
-        orderCancelledEventDomainEventPublisher: DomainEventPublisher<com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent>
-    ): com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent {
+        orderCancelledEventDomainEventPublisher: DomainEventPublisher<OrderCancelledEvent>
+    ): OrderCancelledEvent {
         order.initCancel(failureMessages);
         logger.info { "Order payment is cancelling for order id: ${order.id!!.value}" }
-        return com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent(
+        return OrderCancelledEvent(
             order, ZonedDateTime.now(ZoneId.of(UTC)),
             orderCancelledEventDomainEventPublisher
         )

@@ -8,7 +8,7 @@ import com.food.ordering.system.kotlin.order.service.domain.valueobject.Tracking
 import org.springframework.stereotype.Component
 
 @Component
-class OrderRepositoryImpl(
+open class OrderRepositoryImpl(
     val orderJpaRepository: OrderJpaRepository,
     val orderDataAccessMapper: OrderDataAccessMapper
 ) : OrderRepository {

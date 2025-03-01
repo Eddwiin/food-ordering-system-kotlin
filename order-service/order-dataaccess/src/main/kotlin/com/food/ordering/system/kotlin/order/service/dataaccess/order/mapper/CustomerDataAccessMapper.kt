@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component
 class CustomerDataAccessMapper {
 
     fun customerEntityToCustomer(customerEntity: CustomerEntity): Customer {
-        return Customer(CustomerId(customerEntity.id))
+        return Customer(CustomerId(customerEntity.id!!))
     }
 }
