@@ -3,15 +3,17 @@ package com.food.ordering.system.kotlin.order.service.domain.entity
 import com.food.ordering.system.kotlin.domain.entity.AggregateRoot
 import com.food.ordering.system.kotlin.domain.valueobject.*
 import com.food.ordering.system.kotlin.order.service.domain.valueobject.OrderItemId
+import com.food.ordering.system.kotlin.order.service.domain.valueobject.StreetAddress
+import com.food.ordering.system.kotlin.order.service.domain.valueobject.TrackingId
 import java.util.*
 
 class Order private constructor(
     var customerId: CustomerId,
     var restaurantId: RestaurantId,
-    var streetAddress: com.food.ordering.system.kotlin.order.service.domain.valueobject.StreetAddress,
+    var streetAddress: StreetAddress,
     var price: Money,
-    var items: List<OrderItem>,
-    var trackingId: com.food.ordering.system.kotlin.order.service.domain.valueobject.TrackingId?,
+    var items: MutableList<OrderItem>,
+    var trackingId: TrackingId?,
     var orderStatus: OrderStatus?,
     var failureMessages: MutableList<String>
 ) : AggregateRoot<OrderId>() {
@@ -130,7 +132,7 @@ class Order private constructor(
         var restaurantId: RestaurantId? = null
         var streetAddress: com.food.ordering.system.kotlin.order.service.domain.valueobject.StreetAddress? = null
         var price: Money? = null
-        var orderItem: List<OrderItem>? = null
+        var orderItem: MutableList<OrderItem>? = null
         var trackId: com.food.ordering.system.kotlin.order.service.domain.valueobject.TrackingId? = null
         var orderStatus: OrderStatus? = null
         var failureMessages: MutableList<String>? = null
@@ -142,7 +144,7 @@ class Order private constructor(
             apply { this.streetAddress = streetAddress }
 
         fun price(price: Money) = apply { this.price = price }
-        fun orderItem(orderItem: List<OrderItem>) = apply { this.orderItem = orderItem }
+        fun orderItem(orderItem: MutableList<OrderItem>) = apply { this.orderItem = orderItem }
         fun trackId(trackId: com.food.ordering.system.kotlin.order.service.domain.valueobject.TrackingId) =
             apply { this.trackId = trackId }
 

@@ -61,7 +61,7 @@ class OrderDataAccessMapper {
         )
     }
 
-    private fun orderItemEntitiesToOrderItems(items: List<OrderItemEntity>): List<OrderItem> {
+    private fun orderItemEntitiesToOrderItems(items: List<OrderItemEntity>): MutableList<OrderItem> {
         return items.map { orderItemEntity ->
             OrderItem.builder()
                 .orderItemId(OrderItemId(orderItemEntity.id))
@@ -70,10 +70,10 @@ class OrderDataAccessMapper {
                 .quantity(orderItemEntity.quantity!!)
                 .subTotal(Money(orderItemEntity.subTotal!!))
                 .build()
-        }
+        }.toMutableList()
     }
 
-    private fun orderItemsToOrderItemEntity(items: List<OrderItem>): List<OrderItemEntity> {
+    private fun orderItemsToOrderItemEntity(items: List<OrderItem>): MutableList<OrderItemEntity> {
         return items.map { orderItem ->
             OrderItemEntity.builder()
                 .id(orderItem.id!!.value!!)
@@ -82,7 +82,7 @@ class OrderDataAccessMapper {
                 .quantity(orderItem.quantity)
                 .subTotal(orderItem.subTotal!!.amount)
                 .build()
-        }
+        }.toMutableList()
     }
 
     private fun deliveryAddressToAddressEntity(streetAddress: StreetAddress): OrderAddressEntity? {

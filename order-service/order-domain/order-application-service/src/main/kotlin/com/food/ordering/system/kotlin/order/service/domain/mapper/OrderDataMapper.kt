@@ -50,7 +50,7 @@ class OrderDataMapper {
             .build()
     }
 
-    private fun orderItemToOrderItemEntities(items: List<OrderItem>): List<com.food.ordering.system.kotlin.order.service.domain.entity.OrderItem> {
+    private fun orderItemToOrderItemEntities(items: List<OrderItem>): MutableList<com.food.ordering.system.kotlin.order.service.domain.entity.OrderItem> {
         return items.map { item ->
             com.food.ordering.system.kotlin.order.service.domain.entity.OrderItem
                 .builder()
@@ -59,7 +59,7 @@ class OrderDataMapper {
                 .quantity(item.quantity)
                 .subTotal(Money(item.subTotal))
                 .build()
-        }
+        }.toMutableList()
     }
 
     private fun orderAddressToStreetAddress(address: OrderAddress): com.food.ordering.system.kotlin.order.service.domain.valueobject.StreetAddress {

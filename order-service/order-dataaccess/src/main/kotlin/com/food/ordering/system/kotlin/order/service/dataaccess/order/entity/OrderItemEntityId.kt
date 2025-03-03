@@ -2,14 +2,20 @@ package com.food.ordering.system.kotlin.order.service.dataaccess.order.entity
 
 import java.io.Serializable
 
-data class OrderItemEntityId(
-    val id: Long,
+class OrderItemEntityId(
+    val id: Long? = null,
     val order: OrderEntity? = null
 ) : Serializable {
 
     companion object {
         fun builder() = OrderItemEntityIdBuilder()
     }
+
+    constructor() : this(
+        id = null,
+        order = null
+    )
+
 
     class OrderItemEntityIdBuilder {
         private var id: Long? = null

@@ -1,15 +1,21 @@
 package com.food.ordering.system.kotlin.order.service.dataaccess.restaurant.entity
 
+import java.io.Serializable
 import java.util.*
 
-class RestaurantEntityId(
+open class RestaurantEntityId(
     val restaurantId: UUID,
     val productId: UUID
-) {
+) : Serializable {
+
     companion object {
         fun builder() = Builder()
     }
 
+    constructor() : this(
+        restaurantId = UUID.randomUUID(),
+        productId = UUID.randomUUID()
+    )
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

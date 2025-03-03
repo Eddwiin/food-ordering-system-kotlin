@@ -32,11 +32,11 @@ data class OrderAddressEntity(
     )
 
     class OrderAddressEntityBuilder {
-        private lateinit var id: UUID
-        private lateinit var order: OrderEntity
-        private lateinit var street: String
-        private lateinit var postalCode: String
-        private lateinit var city: String
+        private var id: UUID? = null
+        private var order: OrderEntity? = null
+        private var street: String? = null
+        private var postalCode: String? = null
+        private var city: String? = null
 
         fun id(id: UUID) = apply { this.id = id }
         fun order(order: OrderEntity) = apply { this.order = order }

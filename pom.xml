@@ -12,6 +12,7 @@
         <module>common</module>
         <module>infrastructure</module>
         <module>customer-service</module>
+        <module>restaurant-service</module>
     </modules>
 
     <parent>
@@ -144,6 +145,16 @@
             <dependency>
                 <groupId>com.food.ordering.system.kotlin</groupId>
                 <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system.kotlin</groupId>
+                <artifactId>restaurant-dataaccess</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system.kotlin</groupId>
+                <artifactId>restaurant-container</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

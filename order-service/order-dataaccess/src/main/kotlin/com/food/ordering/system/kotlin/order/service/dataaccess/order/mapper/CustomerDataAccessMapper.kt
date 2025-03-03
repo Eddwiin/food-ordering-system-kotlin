@@ -1,7 +1,7 @@
 package com.food.ordering.system.kotlin.order.service.dataaccess.order.mapper
 
 import com.food.ordering.system.kotlin.domain.valueobject.CustomerId
-import com.food.ordering.system.kotlin.order.service.dataaccess.order.entity.CustomerEntity
+import com.food.ordering.system.kotlin.order.service.dataaccess.customer.entity.CustomerEntity
 import com.food.ordering.system.kotlin.order.service.domain.entity.Customer
 import org.springframework.stereotype.Component
 

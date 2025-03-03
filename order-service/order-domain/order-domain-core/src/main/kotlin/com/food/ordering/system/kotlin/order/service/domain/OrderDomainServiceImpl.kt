@@ -70,7 +70,7 @@ class OrderDomainServiceImpl() : OrderDomainService {
     }
 
     private fun validateRestaurant(restaurant: Restaurant) {
-        if (restaurant.active) {
+        if (!restaurant.active) {
             throw com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException(
                 "Restaurant with id " + restaurant.id!!.value
                         + " is currently not active!"

@@ -24,6 +24,10 @@
     <file url="file://$PROJECT_DIR$/order-service/order-messaging/src/main/kotlin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/order-service/src/main/kotlin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/order-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/restaurant-service/restaurant-container/src/main/kotlin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/restaurant-service/restaurant-dataaccess/src/main/kotlin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/restaurant-service/src/main/kotlin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/restaurant-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/kotlin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

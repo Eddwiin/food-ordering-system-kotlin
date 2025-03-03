@@ -21,7 +21,7 @@ data class OrderEntity(
     @OneToOne(mappedBy = "order", cascade = [CascadeType.ALL])
     val address: OrderAddressEntity? = null,
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "order", orphanRemoval = true)
-    val items: List<OrderItemEntity> = emptyList()
+    val items: MutableList<OrderItemEntity> = mutableListOf()
 ) {
     companion object {
         fun builder() = OrderEntityBuilder()
@@ -48,7 +48,7 @@ data class OrderEntity(
         private var orderStatus: OrderStatus? = null
         private var failureMessages: String? = null
         private var address: OrderAddressEntity? = null
-        private var items: List<OrderItemEntity> = emptyList()
+        private var items: MutableList<OrderItemEntity> = mutableListOf()
 
         fun id(id: UUID?) = apply { this.id = id }
         fun customerId(customerId: UUID?) = apply { this.customerId = customerId }
@@ -58,7 +58,7 @@ data class OrderEntity(
         fun orderStatus(orderStatus: OrderStatus?) = apply { this.orderStatus = orderStatus }
         fun failureMessages(failureMessages: String?) = apply { this.failureMessages = failureMessages }
         fun address(address: OrderAddressEntity?) = apply { this.address = address }
-        fun items(items: List<OrderItemEntity>) = apply { this.items = items }
+        fun items(items: MutableList<OrderItemEntity>) = apply { this.items = items }
 
         fun build(): OrderEntity {
             return OrderEntity(

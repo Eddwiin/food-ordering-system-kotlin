@@ -1,11 +1,11 @@
-package com.food.ordering.system.kotlin.order.service.dataaccess.order.entity
+package com.food.ordering.system.kotlin.order.service.dataaccess.customer.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.util.*
 
-@Table(name = "order_customer", schema = "customer")
+@Table(name = "order_customer_m_view", schema = "customer")
 @Entity
 class CustomerEntity(
     @Id

@@ -47,7 +47,6 @@ class OrderItem private constructor(
         fun subTotal(subTotal: Money) = apply { this.subTotal = subTotal }
 
         fun build(): OrderItem {
-            requireNotNull(orderItemId) { "Order Item Id must not be null" }
             requireNotNull(product) { "Product must not be null" }
             requireNotNull(price) { "Price must not be null" }
             requireNotNull(subTotal) { "Sub-total must not be null" }
