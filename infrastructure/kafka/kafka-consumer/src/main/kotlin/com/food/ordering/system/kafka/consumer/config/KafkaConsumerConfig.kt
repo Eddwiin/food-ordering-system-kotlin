@@ -22,11 +22,15 @@ open class KafkaConsumerConfig<K : Serializable, V : SpecificRecordBase>(
     @Bean
     open fun consumerConfigs(): Map<String, Any> {
         val props: MutableMap<String, Any> = HashMap()
-        props[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaConfigData.bootstrapServers
+        kafkaConfigData.bootstrapServers?.let { props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, it) }
+            ?: throw IllegalStateException("Bootstrap servers configuration is missing")
         props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = kafkaConsumerConfigData.keyDeserializer
         props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = kafkaConsumerConfigData.valueDeserializer
         props[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = kafkaConsumerConfigData.autoOffsetReset
-        props[kafkaConfigData.schemaRegistryUrlKey] = kafkaConfigData.schemaRegistryUrl
+        kafkaConfigData.schemaRegistryUrl?.let {
+            kafkaConfigData.schemaRegistryUrlKey?.let { it1 -> props.put(it1, it) }
+                ?: throw IllegalStateException("Schema Registry URL KEY is missing")
+        } ?: throw IllegalStateException("Schema Registry URL is missing")
         props[kafkaConsumerConfigData.specificAvroReaderKey] = kafkaConsumerConfigData.specificAvroReader
         props[ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG] = kafkaConsumerConfigData.sessionTimeoutMs
         props[ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG] = kafkaConsumerConfigData.heartbeatIntervalMs

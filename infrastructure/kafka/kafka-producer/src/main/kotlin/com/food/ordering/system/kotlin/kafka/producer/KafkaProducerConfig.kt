@@ -22,7 +22,8 @@ open class KafkaProducerConfig<K : Serializable, V : SpecificRecordBase>(
     open fun producerConfig(): Map<String, Any?> {
         val props: MutableMap<String, Any?> = HashMap()
         props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaConfigData.bootstrapServers
-        props[kafkaConfigData.schemaRegistryUrlKey] = kafkaConfigData.schemaRegistryUrl
+        kafkaConfigData.schemaRegistryUrlKey?.let { props[it] = kafkaConfigData.schemaRegistryUrl }
+            ?: throw IllegalStateException("Schema URL KEY is missing")
         props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = kafkaProducerConfigData.keySerializerClass
         props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = kafkaProducerConfigData.valueSerializerClass
         props[ProducerConfig.BATCH_SIZE_CONFIG] =
