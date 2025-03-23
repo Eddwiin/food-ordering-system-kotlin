@@ -7,7 +7,7 @@ import java.time.ZonedDateTime
 class PaymentFailedEvent(
     override val payment: Payment,
     override val createAt: ZonedDateTime,
-    override val failureMessages: List<String>,
+    override val failureMessages: MutableList<String>,
     val paymentFailedEventDomainEventPublisher: DomainEventPublisher<PaymentFailedEvent>
 ) : PaymentEvent(payment, createAt, failureMessages) {
 

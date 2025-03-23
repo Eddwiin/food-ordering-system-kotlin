@@ -11,17 +11,18 @@ interface PaymentDomainService {
 
     fun validateAndInitiatePayment(
         payment: Payment,
-        creditEnty: CreditEntry,
-        creditHistories: List<CreditHistory>,
-        failureMessages: List<String>,
-        paymentCompletedEventDomainEventPublisher: DomainEventPublisher<PaymentCompletedEvent>
+        creditEntry: CreditEntry,
+        creditHistories: MutableList<CreditHistory>,
+        failureMessages: MutableList<String>,
+        paymentCompletedEventDomainEventPublisher: DomainEventPublisher<PaymentCompletedEvent>,
+        paymentFailedEventDomainEventPublisher: DomainEventPublisher<PaymentFailedEvent>
     ): PaymentEvent
 
     fun validateAndCancelPayment(
         payment: Payment,
         creditEnty: CreditEntry,
-        creditHistories: List<CreditHistory>,
-        failureMessages: List<String>,
+        creditHistories: MutableList<CreditHistory>,
+        failureMessages: MutableList<String>,
         paymentCancelledEventDomainEventPublisher: DomainEventPublisher<PaymentCancelledEvent>,
         paymentFailedEventDomainEventPublisher: DomainEventPublisher<PaymentFailedEvent>
     ): PaymentEvent
