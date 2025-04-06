@@ -13,4 +13,8 @@ class CreditEntry(
     fun subtractCreditAmount(amount: Money?) {
         totalCreditAmount = totalCreditAmount.subtract(amount!!)
     }
+
+    fun addCreditAmount(amount: Money?) {
+        totalCreditAmount = totalCreditAmount.add(amount!!)
+    }
 }

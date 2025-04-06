@@ -1,5 +1,6 @@
 import com.food.ordering.system.kotlin.domain.DomainConstants
 import com.food.ordering.system.kotlin.domain.event.publisher.DomainEventPublisher
+import com.food.ordering.system.kotlin.domain.valueobject.Money
 import com.food.ordering.system.kotlin.domain.valueobject.PaymentStatus
 import entity.CreditEntry
 import entity.CreditHistory
@@ -14,6 +15,7 @@ import valueobject.TransactionType
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
+
 
 class PaymentDomainServiceImpl : PaymentDomainService {
     private val logger = KotlinLogging.logger {}
@@ -98,7 +100,39 @@ class PaymentDomainServiceImpl : PaymentDomainService {
         creditHistories: MutableList<CreditHistory>,
         failureMessages: MutableList<String>
     ) {
+        val totalCreditHistory: Money = getTotalHistoryAmount(creditHistories, TransactionType.CREDIT)
+        val totalDebitHistory: Money = getTotalHistoryAmount(creditHistories, TransactionType.DEBIT)
 
+        if (totalDebitHistory.isGreaterThan(totalCreditHistory)) {
+            logger.error { "Customer with id: ${creditEntry.customerId.value} doesn't have enough credit according to credit history" }
+
+            failureMessages.add(
+                ("Customer with id=" + creditEntry.customerId.value).toString() +
+                        " doesn't have enough credit according to credit history!"
+            )
+        }
+
+        if (!creditEntry.totalCreditAmount.equals(totalCreditHistory.subtract(totalDebitHistory))) {
+            logger.error(
+                "Credit history total is not equal to current credit for customer id: {}!",
+                creditEntry.customerId.value
+            )
+            failureMessages.add(
+                ("Credit history total is not equal to current credit for customer id: " +
+                        creditEntry.customerId.value).toString() + "!"
+            )
+        }
+    }
+
+    private fun getTotalHistoryAmount(creditHistories: List<CreditHistory>, transactionType: TransactionType): Money {
+        return creditHistories.stream()
+            .filter { creditHistory: CreditHistory -> transactionType == creditHistory.transactionType }
+            .map(CreditHistory::amount)
+            .reduce(Money.ZERO) { obj: Money, money: Money -> obj.add(money) }
+    }
+
+    private fun addCreditEntry(payment: Payment, creditEntry: CreditEntry) {
+        creditEntry.addCreditAmount(payment.price)
     }
 
 }
