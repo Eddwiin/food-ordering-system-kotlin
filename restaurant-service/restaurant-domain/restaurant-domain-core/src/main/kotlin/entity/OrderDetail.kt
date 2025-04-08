@@ -8,6 +8,7 @@ import com.food.ordering.system.kotlin.domain.valueobject.OrderStatus
 class OrderDetail(
     val orderStatus: OrderStatus? = null,
     val totalAmount: Money? = null,
-    val products: List<Product>? = null
+    val products: List<Product>? = null,
+    val orderId: OrderId? = null
 
 ) : BaseEntity<OrderId>()

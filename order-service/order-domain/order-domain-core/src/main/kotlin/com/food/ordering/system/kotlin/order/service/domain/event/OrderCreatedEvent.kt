@@ -8,4 +8,8 @@ class OrderCreatedEvent(
     override val order: Order,
     override val createdAt: ZonedDateTime,
     orderCreatedEventPublisher: DomainEventPublisher<OrderCreatedEvent>
-) : OrderEvent(order, createdAt)
+) : OrderEvent(order, createdAt) {
+    override fun fire() {
+        TODO("Not yet implemented")
+    }
+}

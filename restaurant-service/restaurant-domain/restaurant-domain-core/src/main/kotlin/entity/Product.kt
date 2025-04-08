@@ -8,5 +8,6 @@ class Product(
     val name: String? = null,
     val price: Money? = null,
     val quantity: Int = 0,
-    val available: Boolean = false
+    val available: Boolean = false,
+    productId: ProductId? = null
 ) : BaseEntity<ProductId>()

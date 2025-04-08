@@ -9,7 +9,7 @@ class PaymentCompletedEvent(
     override val createAt: ZonedDateTime,
     val paymentCompletedEventDomainEventPublisher: DomainEventPublisher<PaymentCompletedEvent>
 ) :
-    PaymentEvent(payment, createAt, emptyList()) {
+    PaymentEvent(payment, createAt, mutableListOf()) {
 
     override fun fire() {
         paymentCompletedEventDomainEventPublisher.publish(this)

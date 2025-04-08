@@ -8,4 +8,8 @@ class OrderCancelledEvent(
     override val order: Order,
     override val createdAt: ZonedDateTime,
     orderCancelledEventDomainEventPublisher: DomainEventPublisher<OrderCancelledEvent>
-) : OrderEvent(order, createdAt)
+) : OrderEvent(order, createdAt) {
+    override fun fire() {
+        TODO("Not yet implemented")
+    }
+}
