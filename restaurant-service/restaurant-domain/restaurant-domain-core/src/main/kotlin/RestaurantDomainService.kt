@@ -6,7 +6,7 @@ import event.OrderRejectedEvent
 
 interface RestaurantDomainService {
     fun validateOrder(
-        restaurant: Restaurant?,
+        restaurant: Restaurant,
         failureMessages: MutableList<String>?,
         orderApprovedEventDomainEventPublisher: DomainEventPublisher<OrderApprovedEvent>?,
         orderRejectedEventDomainEventPublisher: DomainEventPublisher<OrderRejectedEvent>?

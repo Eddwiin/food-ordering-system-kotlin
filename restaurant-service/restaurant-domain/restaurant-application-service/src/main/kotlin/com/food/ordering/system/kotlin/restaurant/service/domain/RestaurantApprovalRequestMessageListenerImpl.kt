@@ -5,8 +5,12 @@ import com.food.ordering.system.kotlin.restaurant.service.domain.ports.input.mes
 import org.springframework.stereotype.Service
 
 @Service
-class RestaurantApprovalRequestMessageListenerImpl : RestaurantApprovalRequestMessageListener {
-    override fun approveOrder(restaurantApprovalRequest: RestaurantApprovalRequest?) {
-        TODO("Not yet implemented")
+class RestaurantApprovalRequestMessageListenerImpl(
+    val restaurantApprovalRequestHelper: RestaurantApprovalRequestHelper
+) : RestaurantApprovalRequestMessageListener {
+
+    override fun approveOrder(restaurantApprovalRequest: RestaurantApprovalRequest) {
+        val orderApprovalEvent = restaurantApprovalRequestHelper.persistOrderApproval(restaurantApprovalRequest);
+        orderApprovalEvent.fire();
     }
 }

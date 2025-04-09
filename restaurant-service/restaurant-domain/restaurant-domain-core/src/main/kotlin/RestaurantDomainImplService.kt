@@ -15,40 +15,40 @@ class RestaurantDomainImplService : RestaurantDomainService {
     private val logger = KotlinLogging.logger {}
 
     override fun validateOrder(
-        restaurant: Restaurant?,
+        restaurant: Restaurant,
         failureMessages: MutableList<String>?,
         orderApprovedEventDomainEventPublisher: DomainEventPublisher<OrderApprovedEvent>?,
         orderRejectedEventDomainEventPublisher: DomainEventPublisher<OrderRejectedEvent>?
-    ): OrderApprovalEvent? {
-        restaurant?.validateOrder(failureMessages)
-        logger.info { "Validating order with id: ${restaurant?.orderDetail?.id?.value}" }
+    ): OrderApprovalEvent {
+        restaurant.validateOrder(failureMessages)
+        logger.info { "Validating order with id: ${restaurant.orderDetail?.id?.value}" }
 
         if (failureMessages!!.isEmpty()) {
-            logger.info { "Order is approved for order id: ${restaurant?.orderDetail?.id?.value}" }
+            logger.info { "Order is approved for order id: ${restaurant.orderDetail?.id?.value}" }
 
-            restaurant?.orderApproval?.orderApprovalId = OrderApprovalId(UUID.randomUUID())
-            restaurant?.orderApproval?.restaurantId = restaurant?.id
-            restaurant?.orderApproval?.orderId = restaurant?.orderDetail?.id
-            restaurant?.orderApproval?.approvalStatus = OrderApprovalStatus.APPROVED
+            restaurant.orderApproval?.orderApprovalId = OrderApprovalId(UUID.randomUUID())
+            restaurant.orderApproval?.restaurantId = restaurant.id
+            restaurant.orderApproval?.orderId = restaurant.orderDetail?.id
+            restaurant.orderApproval?.approvalStatus = OrderApprovalStatus.APPROVED
 
             return OrderApprovedEvent(
-                restaurant?.orderApproval,
-                restaurant?.id,
+                restaurant.orderApproval,
+                restaurant.id,
                 failureMessages,
                 ZonedDateTime.now(ZoneId.of(UTC)),
                 orderApprovedEventDomainEventPublisher!!
             )
         } else {
-            logger.info { "Order is rejected for order id: ${restaurant?.orderDetail?.id?.value}" }
+            logger.info { "Order is rejected for order id: ${restaurant.orderDetail?.id?.value}" }
 
-            restaurant?.orderApproval?.orderApprovalId = OrderApprovalId(UUID.randomUUID())
-            restaurant?.orderApproval?.restaurantId = restaurant?.id
-            restaurant?.orderApproval?.orderId = restaurant?.orderDetail?.id
-            restaurant?.orderApproval?.approvalStatus = OrderApprovalStatus.REJECTED
+            restaurant.orderApproval?.orderApprovalId = OrderApprovalId(UUID.randomUUID())
+            restaurant.orderApproval?.restaurantId = restaurant.id
+            restaurant.orderApproval?.orderId = restaurant.orderDetail?.id
+            restaurant.orderApproval?.approvalStatus = OrderApprovalStatus.REJECTED
 
             return OrderRejectedEvent(
-                restaurant?.orderApproval,
-                restaurant?.id,
+                restaurant.orderApproval,
+                restaurant.id,
                 failureMessages,
                 ZonedDateTime.now(ZoneId.of(UTC)),
                 orderRejectedEventDomainEventPublisher!!

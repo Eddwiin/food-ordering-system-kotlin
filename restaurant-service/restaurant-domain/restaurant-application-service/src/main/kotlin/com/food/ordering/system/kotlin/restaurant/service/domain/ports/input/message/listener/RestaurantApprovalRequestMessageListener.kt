@@ -3,5 +3,5 @@ package com.food.ordering.system.kotlin.restaurant.service.domain.ports.input.me
 import com.food.ordering.system.kotlin.restaurant.service.domain.dto.RestaurantApprovalRequest
 
 interface RestaurantApprovalRequestMessageListener {
-    fun approveOrder(restaurantApprovalRequest: RestaurantApprovalRequest?)
+    fun approveOrder(restaurantApprovalRequest: RestaurantApprovalRequest)
 }

@@ -9,6 +9,6 @@ class OrderDetail(
     val orderStatus: OrderStatus? = null,
     val totalAmount: Money? = null,
     val products: List<Product>? = null,
-    val orderId: OrderId? = null
+    var orderId: OrderId? = null
 
 ) : BaseEntity<OrderId>()

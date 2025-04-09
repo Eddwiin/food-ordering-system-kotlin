@@ -7,7 +7,7 @@ import com.food.ordering.system.kotlin.domain.valueobject.RestaurantId
 
 class Restaurant(
     val orderApproval: OrderApproval? = null,
-    val active: Boolean = false,
+    var active: Boolean = false,
     val orderDetail: OrderDetail? = null,
     val restaurantId: RestaurantId
 ) : AggregateRoot<RestaurantId>() {
@@ -27,9 +27,5 @@ class Restaurant(
         if (totalAmount != orderDetail?.totalAmount) {
             failureMessages?.add("Price total is not correct for order: ${orderDetail?.id}")
         }
-    }
-
-    fun constructOrderApproval(approved: Any) {
-
     }
 }
