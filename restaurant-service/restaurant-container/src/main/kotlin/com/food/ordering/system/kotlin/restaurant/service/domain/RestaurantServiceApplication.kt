@@ -3,8 +3,16 @@ package com.food.ordering.system.kotlin.restaurant.service.domain
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
-@EntityScan("com.food.ordering.system.kotlin.restaurant.service")
+@EnableJpaRepositories(
+    "com.food.ordering.system.kotlin.restaurant.service.dataaccess",
+    "com.food.ordering.system.kotlin.dataaccess"
+)
+@EntityScan(
+    "com.food.ordering.system.kotlin.restaurant.service.dataaccess",
+    "com.food.ordering.system.kotlin.dataaccess"
+)
 @SpringBootApplication(scanBasePackages = ["com.food.ordering.system.kotlin"])
 open class RestaurantServiceApplication {
     companion object {
