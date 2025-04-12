@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class OrderApprovalRepositoryImpl(
-    val orderApprovalJpaRepository: OrderApprovalJpaRepository? = null,
-    val restaurantDataAccessMapper: RestaurantDataAccessMapper? = null
+    val orderApprovalJpaRepository: OrderApprovalJpaRepository,
+    val restaurantDataAccessMapper: RestaurantDataAccessMapper,
 ) : OrderApprovalRepository {
     override fun save(orderApproval: OrderApproval): OrderApproval {
-        TODO("Not yet implemented")
+        return restaurantDataAccessMapper.orderApprovalEntityToOrderApproval(
+            orderApprovalJpaRepository.save(restaurantDataAccessMapper.orderApprovalToOrderApprovalEntity(orderApproval))
+        )
     }
 }
