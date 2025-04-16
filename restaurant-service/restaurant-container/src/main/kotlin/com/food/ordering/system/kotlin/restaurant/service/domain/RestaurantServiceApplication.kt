@@ -5,14 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
-@EnableJpaRepositories(
-    "com.food.ordering.system.kotlin.restaurant.service.dataaccess",
-    "com.food.ordering.system.kotlin.dataaccess"
-)
-@EntityScan(
-    "com.food.ordering.system.kotlin.restaurant.service.dataaccess",
-    "com.food.ordering.system.kotlin.dataaccess"
-)
+@EnableJpaRepositories(basePackages = ["com.food.ordering.system.kotlin.restaurant.service.dataaccess"])
+@EntityScan(basePackages = ["com.food.ordering.system.kotlin.restaurant.service.dataaccess"])
 @SpringBootApplication(scanBasePackages = ["com.food.ordering.system.kotlin"])
 open class RestaurantServiceApplication {
     companion object {
