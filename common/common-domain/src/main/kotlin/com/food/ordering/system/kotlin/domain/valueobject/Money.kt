@@ -13,16 +13,16 @@ class Money(val amount: BigDecimal) {
         return amount != null && amount.compareTo(BigDecimal.ZERO) > 0
     }
 
-    fun isGreaterThan(money: Money): Boolean {
-        return amount != null && money.amount.compareTo(BigDecimal.ZERO) > 0
+    fun isGreaterThan(money: Money?): Boolean {
+        return amount != null && money?.amount?.compareTo(BigDecimal.ZERO)!! > 0
     }
 
     fun add(money: Money): Money {
         return Money(setScale(amount.add(money.amount)))
     }
 
-    fun subtract(money: Money): Money {
-        return Money(setScale(amount.subtract(money.amount)))
+    fun subtract(money: Money?): Money {
+        return Money(setScale(amount.subtract(money?.amount)))
     }
 
     fun multiply(multiplier: Int): Money {

@@ -21,7 +21,7 @@ class CreditEntryDataAccessMapper {
 
     fun creditEntryToCreditEntryEntity(creditEntry: CreditEntry): CreditEntryEntity {
         return CreditEntryEntity(
-            id = creditEntry.id!!.value,
+            id = creditEntry.id?.value!!,
             customerId = creditEntry.customerId.value,
             totalCreditAmount = creditEntry.totalCreditAmount.amount
         )

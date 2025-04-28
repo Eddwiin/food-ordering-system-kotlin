@@ -1,20 +1,20 @@
 package com.food.ordering.system.kotlin.payment.service.domain
 
-import PaymentDomainService
-import com.food.ordering.system.kotlin.com.food.ordering.system.kotlin.payment.service.domain.dto.PaymentRequest
 import com.food.ordering.system.kotlin.com.food.ordering.system.kotlin.payment.service.domain.exception.PaymentApplicationServiceException
 import com.food.ordering.system.kotlin.com.food.ordering.system.kotlin.payment.service.domain.mapper.PaymentDataMapper
 import com.food.ordering.system.kotlin.domain.valueobject.CustomerId
+import com.food.ordering.system.kotlin.payment.service.domain.core.PaymentDomainService
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.CreditEntry
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.CreditHistory
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.Payment
+import com.food.ordering.system.kotlin.payment.service.domain.core.event.PaymentEvent
+import com.food.ordering.system.kotlin.payment.service.domain.dto.PaymentRequest
 import com.food.ordering.system.kotlin.payment.service.domain.ports.output.message.publisher.PaymentCancelledMessagePublisher
 import com.food.ordering.system.kotlin.payment.service.domain.ports.output.message.publisher.PaymentCompletedMessagePublisher
 import com.food.ordering.system.kotlin.payment.service.domain.ports.output.message.publisher.PaymentFailedMessagePublisher
 import com.food.ordering.system.kotlin.payment.service.domain.ports.output.repository.CreditEntryRepository
 import com.food.ordering.system.kotlin.payment.service.domain.ports.output.repository.CreditHistoryRepository
 import com.food.ordering.system.kotlin.payment.service.domain.ports.output.repository.PaymentRepository
-import entity.CreditEntry
-import entity.CreditHistory
-import entity.Payment
-import event.PaymentEvent
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

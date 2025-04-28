@@ -1,13 +1,13 @@
 package com.food.ordering.system.kotlin.payment.service.domain.core
 
 import com.food.ordering.system.kotlin.domain.event.publisher.DomainEventPublisher
-import entity.CreditEntry
-import entity.CreditHistory
-import entity.Payment
-import event.PaymentCancelledEvent
-import event.PaymentCompletedEvent
-import event.PaymentEvent
-import event.PaymentFailedEvent
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.CreditEntry
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.CreditHistory
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.Payment
+import com.food.ordering.system.kotlin.payment.service.domain.core.event.PaymentCancelledEvent
+import com.food.ordering.system.kotlin.payment.service.domain.core.event.PaymentCompletedEvent
+import com.food.ordering.system.kotlin.payment.service.domain.core.event.PaymentEvent
+import com.food.ordering.system.kotlin.payment.service.domain.core.event.PaymentFailedEvent
 
 interface PaymentDomainService {
 
@@ -18,9 +18,8 @@ interface PaymentDomainService {
         failureMessages: MutableList<String>? = null,
         paymentCompletedEventDomainEventPublisher: DomainEventPublisher<PaymentCompletedEvent>? = null,
         paymentFailedEventDomainEventPublisher: DomainEventPublisher<PaymentFailedEvent>? = null,
-        paymentCancelledEventDomainEventPublisher: DomainEventPublisher<PaymentCancelledEvent>? = null,
-
-        ): PaymentEvent
+        paymentCancelledEventDomainEventPublisher: DomainEventPublisher<PaymentCancelledEvent>? = null
+    ): PaymentEvent
 
     fun validateAndCancelPayment(
         payment: Payment,

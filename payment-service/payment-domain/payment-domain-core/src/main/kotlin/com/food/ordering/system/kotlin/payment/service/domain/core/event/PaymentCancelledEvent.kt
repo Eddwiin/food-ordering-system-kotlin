@@ -1,7 +1,7 @@
 package com.food.ordering.system.kotlin.payment.service.domain.core.event
 
 import com.food.ordering.system.kotlin.domain.event.publisher.DomainEventPublisher
-import entity.Payment
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.Payment
 import java.time.ZonedDateTime
 
 class PaymentCancelledEvent(

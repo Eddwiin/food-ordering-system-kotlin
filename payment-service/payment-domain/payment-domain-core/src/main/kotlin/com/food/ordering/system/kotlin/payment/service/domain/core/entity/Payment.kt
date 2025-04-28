@@ -5,12 +5,13 @@ import com.food.ordering.system.kotlin.domain.valueobject.CustomerId
 import com.food.ordering.system.kotlin.domain.valueobject.Money
 import com.food.ordering.system.kotlin.domain.valueobject.OrderId
 import com.food.ordering.system.kotlin.domain.valueobject.PaymentStatus
-import valueobject.PaymentId
+import com.food.ordering.system.kotlin.payment.service.domain.core.valueobject.PaymentId
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
 
 class Payment(
+    var paymentId: PaymentId? = null,
     var paymentStatus: PaymentStatus? = null,
     val orderId: OrderId,
     val customerId: CustomerId,
@@ -18,9 +19,9 @@ class Payment(
     var createdAt: ZonedDateTime? = null
 ) : AggregateRoot<PaymentId>() {
 
-    fun validatePayment(failureMessages: MutableList<String>) {
+    fun validatePayment(failureMessages: MutableList<String>?) {
         if (price == null || !price.isGreaterThanZero()) {
-            failureMessages.add("Total price must be greater than zero!");
+            failureMessages?.add("Total price must be greater than zero!");
         }
     }
 

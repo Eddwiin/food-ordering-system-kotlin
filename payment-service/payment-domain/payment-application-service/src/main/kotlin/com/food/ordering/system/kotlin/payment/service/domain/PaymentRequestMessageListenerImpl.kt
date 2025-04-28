@@ -1,8 +1,8 @@
 package com.food.ordering.system.kotlin.payment.service.domain
 
-import com.food.ordering.system.kotlin.com.food.ordering.system.kotlin.payment.service.domain.dto.PaymentRequest
+import com.food.ordering.system.kotlin.payment.service.domain.core.event.PaymentEvent
+import com.food.ordering.system.kotlin.payment.service.domain.dto.PaymentRequest
 import com.food.ordering.system.kotlin.payment.service.domain.ports.input.message.listener.PaymentRequestMessageListener
-import event.PaymentEvent
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 
@@ -19,7 +19,7 @@ class PaymentRequestMessageListenerImpl(
     }
 
     override fun cancelPayment(paymentRequest: PaymentRequest) {
-        val paymentEvent: PaymentEvent? = paymentRequestHelper.persistCancelPayment(paymentRequest)
+        val paymentEvent: PaymentEvent? = paymentRequestHelper?.persistCancelPayment(paymentRequest)
         fireEvent(paymentEvent!!)
     }
 

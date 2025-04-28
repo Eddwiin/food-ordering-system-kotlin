@@ -1,10 +1,10 @@
 package com.food.ordering.system.kotlin.com.food.ordering.system.kotlin.payment.service.domain.mapper
 
-import com.food.ordering.system.kotlin.com.food.ordering.system.kotlin.payment.service.domain.dto.PaymentRequest
 import com.food.ordering.system.kotlin.domain.valueobject.CustomerId
 import com.food.ordering.system.kotlin.domain.valueobject.Money
 import com.food.ordering.system.kotlin.domain.valueobject.OrderId
-import entity.Payment
+import com.food.ordering.system.kotlin.payment.service.domain.core.entity.Payment
+import com.food.ordering.system.kotlin.payment.service.domain.dto.PaymentRequest
 import org.springframework.stereotype.Component
 import java.util.*
 
