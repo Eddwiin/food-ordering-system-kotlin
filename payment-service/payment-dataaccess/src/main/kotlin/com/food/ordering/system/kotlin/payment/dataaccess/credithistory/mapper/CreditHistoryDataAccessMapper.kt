@@ -23,8 +23,8 @@ class CreditHistoryDataAccessMapper {
     fun creditHistoryToCreditHistoryEntity(creditHistory: CreditHistory): CreditHistoryEntity {
         return CreditHistoryEntity(
             id = creditHistory.id?.value!!,
-            customerId = creditHistory.customerId.value!!,
-            amount = creditHistory.amount.amount,
+            customerId = creditHistory.customerId?.value!!,
+            amount = creditHistory.amount?.amount ?: throw Exception("Amount is null"),
             type = creditHistory.transactionType
         )
     }

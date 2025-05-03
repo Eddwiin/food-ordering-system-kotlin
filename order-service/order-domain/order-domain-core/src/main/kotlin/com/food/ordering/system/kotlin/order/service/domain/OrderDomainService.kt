@@ -23,7 +23,6 @@ interface OrderDomainService {
     fun cancelOrderPayment(
         order: Order,
         failureMessages: MutableList<String>,
-        orderCancelledEventDomainEventPublisher: DomainEventPublisher<OrderCancelledEvent>
     ): OrderCancelledEvent
 
     fun cancelOrder(order: Order, failureMessages: MutableList<String>)

@@ -24,7 +24,7 @@ class PaymentRequestMessageListenerImpl(
     }
 
     private fun fireEvent(paymentEvent: PaymentEvent) {
-        logger.info { "Publishing payment event with payment id: ${paymentEvent.payment.id!!.value} and order id: ${paymentEvent.payment.orderId.value}" }
+        logger.info { "Publishing payment event with payment id: ${paymentEvent.payment?.id!!.value} and order id: ${paymentEvent.payment!!.orderId.value}" }
         paymentEvent.fire()
     }
 }

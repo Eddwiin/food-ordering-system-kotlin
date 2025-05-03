@@ -8,14 +8,22 @@ import org.springframework.validation.annotation.Validated
 
 @Validated
 @Service
-open class RestaurantApprovalResponseMessageListenerImpl : RestaurantApprovalResponseMessageListener {
+open class RestaurantApprovalResponseMessageListenerImpl(
+    val orderApprovalSaga: OrderApprovalSaga
+) : RestaurantApprovalResponseMessageListener {
     private val logger = KotlinLogging.logger {}
 
     override fun orderApproved(restaurantApprovalResponse: RestaurantApprovalResponse) {
-        TODO("Not yet implemented")
+        orderApprovalSaga.process(restaurantApprovalResponse)
+        logger.info { "Order is approved with id: ${restaurantApprovalResponse.orderId}" }
     }
 
     override fun orderRejected(restaurantApprovalResponse: RestaurantApprovalResponse) {
-        TODO("Not yet implemented")
+        val domainEvent = orderApprovalSaga.rollback(restaurantApprovalResponse)
+        logger.info {
+            "Publishing order cancelled event for order id: ${restaurantApprovalResponse.orderId} with failure" +
+                    "message: ${restaurantApprovalResponse.failureMessages.joinToString { it }}"
+        }
+        domainEvent.fire()
     }
 }

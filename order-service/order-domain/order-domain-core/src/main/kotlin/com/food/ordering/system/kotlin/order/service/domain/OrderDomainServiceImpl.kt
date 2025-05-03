@@ -55,13 +55,11 @@ class OrderDomainServiceImpl() : OrderDomainService {
     override fun cancelOrderPayment(
         order: Order,
         failureMessages: MutableList<String>,
-        orderCancelledEventDomainEventPublisher: DomainEventPublisher<OrderCancelledEvent>
     ): OrderCancelledEvent {
         order.initCancel(failureMessages);
         logger.info { "Order payment is cancelling for order id: ${order.id!!.value}" }
         return OrderCancelledEvent(
             order, ZonedDateTime.now(ZoneId.of(UTC)),
-            orderCancelledEventDomainEventPublisher
         )
     }
 

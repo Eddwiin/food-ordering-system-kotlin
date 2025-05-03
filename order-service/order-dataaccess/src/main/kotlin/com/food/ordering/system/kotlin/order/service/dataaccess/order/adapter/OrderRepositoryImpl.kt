@@ -1,5 +1,6 @@
 package com.food.ordering.system.kotlin.order.service.dataaccess.order.adapter
 
+import com.food.ordering.system.kotlin.domain.valueobject.OrderId
 import com.food.ordering.system.kotlin.order.service.dataaccess.order.mapper.OrderDataAccessMapper
 import com.food.ordering.system.kotlin.order.service.dataaccess.order.repository.OrderJpaRepository
 import com.food.ordering.system.kotlin.order.service.domain.entity.Order
@@ -23,5 +24,10 @@ open class OrderRepositoryImpl(
         return orderDataAccessMapper.orderEntityToOrder(
             orderJpaRepository.findByTrackingId(trackingId.value!!)!!
         )
+    }
+
+    override fun findById(orderId: OrderId): Order? {
+        return orderJpaRepository.findById(orderId.value!!).map { orderDataAccessMapper.orderEntityToOrder(it) }
+            .orElse(null)
     }
 }
