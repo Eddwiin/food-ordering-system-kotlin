@@ -7,7 +7,6 @@ import com.food.ordering.system.kotlin.order.service.domain.entity.Restaurant
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent
 import com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException
 import com.food.ordering.system.kotlin.order.service.domain.mapper.OrderDataMapper
-import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.CustomerRepository
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.OrderRepository
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.RestaurantRepository
@@ -23,7 +22,6 @@ open class OrderCreateHelper(
     val restaurantRepository: RestaurantRepository,
     val customerRepository: CustomerRepository,
     val orderDataMapper: OrderDataMapper,
-    val orderCreatedPaymentRequestMessagePublisher: OrderCreatedPaymentRequestMessagePublisher
 ) {
     private val logger = KotlinLogging.logger {}
 
@@ -33,11 +31,7 @@ open class OrderCreateHelper(
         val restaurant: Restaurant = checkRestaurant(createOrderCommand)
         val order: Order = orderDataMapper.createOrderCommandToOrder(createOrderCommand)
         val orderCreatedEvent: OrderCreatedEvent =
-            orderDomainService.validateAndInitiateOrderMethod(
-                order,
-                restaurant,
-                orderCreatedPaymentRequestMessagePublisher
-            )
+            orderDomainService.validateAndInitiateOrderMethod(order, restaurant)
         save(order)
         logger.info { "Order is created with id ${order.id}" }
         return orderCreatedEvent

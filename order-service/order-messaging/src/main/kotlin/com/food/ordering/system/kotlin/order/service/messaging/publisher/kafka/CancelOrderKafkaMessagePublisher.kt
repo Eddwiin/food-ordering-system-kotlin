@@ -4,7 +4,6 @@ import com.food.ordering.system.kotlin.kafka.order.avro.model.PaymentRequestAvro
 import com.food.ordering.system.kotlin.kafka.producer.service.KafkaProducer
 import com.food.ordering.system.kotlin.order.service.domain.config.OrderServiceConfigData
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent
-import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.payment.OrderCancelledPaymentRequestMessagePublisher
 import com.food.ordering.system.kotlin.order.service.messaging.mapper.OrderMessagingDataMapper
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Component

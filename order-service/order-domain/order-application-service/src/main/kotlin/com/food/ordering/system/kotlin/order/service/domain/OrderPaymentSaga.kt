@@ -5,7 +5,6 @@ import com.food.ordering.system.kotlin.domain.event.EmptyEvent
 import com.food.ordering.system.kotlin.order.service.domain.dto.message.PaymentResponse
 import com.food.ordering.system.kotlin.order.service.domain.entity.Order
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderPaidEvent
-import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.restaurantapproval.OrderPaidRestaurantRequestMessagePublisher
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +22,7 @@ open class OrderPaymentSaga(
         logger.info { "Completing payment for order with id: ${paymentResponse.orderId}" }
         val order = findOrder(paymentResponse.orderId)
         val domainEvent = orderDomainService.payOrder(order, orderPaidRestaurantRequestMessagePublisher)
-        orderSagaHelper.saveOrder(order);
+        orderSagaHelper.saveOrder(order)
         logger.info { "Order with id: ${order.id!!.value} is paid successfully!" }
         return domainEvent
     }
@@ -31,11 +30,11 @@ open class OrderPaymentSaga(
     @Transactional
     override fun rollback(paymentResponse: PaymentResponse): EmptyEvent {
         logger.info { "Cancelling order with id: ${paymentResponse.orderId}" }
-        val order = findOrder(paymentResponse.orderId);
-        orderDomainService.cancelOrderPayment(order, paymentResponse.failureMessages);
-        orderSagaHelper.saveOrder(order);
+        val order = findOrder(paymentResponse.orderId)
+        orderDomainService.cancelOrderPayment(order, paymentResponse.failureMessages)
+        orderSagaHelper.saveOrder(order)
         logger.info { "Order with id: ${order.id!!.value} is cancelled successfully!" }
-        return EmptyEvent.instance;
+        return EmptyEvent.instance
 
     }
 

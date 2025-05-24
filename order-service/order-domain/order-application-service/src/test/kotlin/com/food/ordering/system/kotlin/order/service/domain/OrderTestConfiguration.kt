@@ -1,7 +1,6 @@
 package com.food.ordering.system.kotlin.order.service.domain
 
 import com.food.ordering.system.kotlin.order.service.domain.mapper.OrderDataMapper
-import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.payment.OrderCreatedPaymentRequestMessagePublisher
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.CustomerRepository
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.OrderRepository
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.RestaurantRepository
@@ -48,6 +47,6 @@ open class OrderTestConfiguration {
 
     @Bean
     open fun orderDomainService(): OrderDomainService {
-        return OrderDomainServiceImpl();
+        return OrderDomainServiceImpl()
     }
 }

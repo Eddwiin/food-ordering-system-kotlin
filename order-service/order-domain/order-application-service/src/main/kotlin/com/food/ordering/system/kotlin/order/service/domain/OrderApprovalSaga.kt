@@ -4,7 +4,7 @@ import com.food.ordering.system.kotlin.com.food.ordering.system.kotlin.saga.Saga
 import com.food.ordering.system.kotlin.domain.event.EmptyEvent
 import com.food.ordering.system.kotlin.order.service.domain.dto.message.RestaurantApprovalResponse
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent
-import com.food.ordering.system.kotlin.order.service.domain.ports.output.publisher.payment.OrderCancelledPaymentRequestMessagePublisher
+import com.food.ordering.system.kotlin.order.service.domain.outbox.scheduler.payment.PaymentOutboxHelper
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 open class OrderApprovalSaga(
     val orderDomainService: OrderDomainService,
     val orderSagaHelper: OrderSagaHelper,
-    val orderCancelledPaymentRequestMessagePublisher: OrderCancelledPaymentRequestMessagePublisher
+    val paymentOutboxHelper: PaymentOutboxHelper,
 ) : SagaStep<RestaurantApprovalResponse, EmptyEvent, OrderCancelledEvent> {
     private val logger = KotlinLogging.logger {}
 

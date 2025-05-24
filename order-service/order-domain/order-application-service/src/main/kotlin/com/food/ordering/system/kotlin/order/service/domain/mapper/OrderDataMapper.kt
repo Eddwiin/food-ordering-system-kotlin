@@ -1,9 +1,6 @@
 package com.food.ordering.system.kotlin.order.service.domain.mapper
 
-import com.food.ordering.system.kotlin.domain.valueobject.CustomerId
-import com.food.ordering.system.kotlin.domain.valueobject.Money
-import com.food.ordering.system.kotlin.domain.valueobject.ProductId
-import com.food.ordering.system.kotlin.domain.valueobject.RestaurantId
+import com.food.ordering.system.kotlin.domain.valueobject.*
 import com.food.ordering.system.kotlin.order.service.domain.dto.create.CreateOrderCommand
 import com.food.ordering.system.kotlin.order.service.domain.dto.create.CreateOrderResponse
 import com.food.ordering.system.kotlin.order.service.domain.dto.create.OrderAddress
@@ -12,11 +9,16 @@ import com.food.ordering.system.kotlin.order.service.domain.dto.track.TrackOrder
 import com.food.ordering.system.kotlin.order.service.domain.entity.Order
 import com.food.ordering.system.kotlin.order.service.domain.entity.Product
 import com.food.ordering.system.kotlin.order.service.domain.entity.Restaurant
+import com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent
+import com.food.ordering.system.kotlin.order.service.domain.outbox.model.payment.OrderPaymentEventPayload
+import com.food.ordering.system.kotlin.order.service.domain.outbox.scheduler.payment.PaymentOutboxHelper
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
 class OrderDataMapper {
+    private val paymentOutboxHelper: PaymentOutboxHelper = TODO("initialize me")
+
     fun createOrderCommandToRestaurant(createOrderCommand: CreateOrderCommand): Restaurant {
         return Restaurant.builder()
             .restaurantId(RestaurantId(createOrderCommand.restaurantId))
@@ -48,6 +50,16 @@ class OrderDataMapper {
             .orderStatus(order.orderStatus!!)
             .failureMessages(order.failureMessages)
             .build()
+    }
+
+    fun orderCreatedEventToOrderPaymentEventPayload(orderCreatedEvent: OrderCreatedEvent): OrderPaymentEventPayload {
+        return OrderPaymentEventPayload(
+            customerId = orderCreatedEvent.order.customerId.value.toString(),
+            orderId = orderCreatedEvent.order.id?.value.toString(),
+            price = orderCreatedEvent.order.price.amount,
+            createdAt = orderCreatedEvent.createdAt,
+            paymentOrderStatus = PaymentOrderStatus.PENDING.name
+        )
     }
 
     private fun orderItemToOrderItemEntities(items: List<OrderItem>): MutableList<com.food.ordering.system.kotlin.order.service.domain.entity.OrderItem> {
