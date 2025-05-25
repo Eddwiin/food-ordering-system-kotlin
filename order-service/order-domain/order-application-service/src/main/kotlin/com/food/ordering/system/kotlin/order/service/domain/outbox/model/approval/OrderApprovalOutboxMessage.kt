@@ -6,15 +6,15 @@ import com.food.ordering.system.kotlin.saga.SagaStatus
 import java.time.ZonedDateTime
 import java.util.*
 
-class OrderApprovalOutboxMessage(
+data class OrderApprovalOutboxMessage(
     val id: UUID,
     val sagaId: UUID,
-    val createdAt: ZonedDateTime,
-    val processedAt: ZonedDateTime,
+    val createdAt: ZonedDateTime? = null,
+    val processedAt: ZonedDateTime? = null,
     val type: String,
-    val payload: String,
-    val sagaStatus: SagaStatus,
-    val orderStatus: OrderStatus,
-    var outboxStatus: OutboxStatus,
+    val payload: String? = null,
+    val sagaStatus: SagaStatus? = null,
+    val orderStatus: OrderStatus? = null,
+    val outboxStatus: OutboxStatus? = null,
     val version: Int = 0
 )

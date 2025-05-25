@@ -15,9 +15,8 @@ open class PaymentResponseMessageListenerImpl(
     private val logger = KotlinLogging.logger {}
 
     override fun paymentCompleted(paymentResponse: PaymentResponse) {
-        val domainEvent = orderPaymentSaga.process(paymentResponse)
-        logger.info { "Publishing OrderPaidEvent for order id: ${paymentResponse.orderId}" }
-        domainEvent.fire()
+        orderPaymentSaga.process(paymentResponse)
+        logger.info { "Order payment Saga process operation is completed for order id: ${paymentResponse.orderId}" }
     }
 
     override fun paymentCancelled(paymentResponse: PaymentResponse) {

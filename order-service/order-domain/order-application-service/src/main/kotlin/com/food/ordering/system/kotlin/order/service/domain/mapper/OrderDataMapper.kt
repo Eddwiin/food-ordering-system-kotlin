@@ -9,7 +9,11 @@ import com.food.ordering.system.kotlin.order.service.domain.dto.track.TrackOrder
 import com.food.ordering.system.kotlin.order.service.domain.entity.Order
 import com.food.ordering.system.kotlin.order.service.domain.entity.Product
 import com.food.ordering.system.kotlin.order.service.domain.entity.Restaurant
+import com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent
+import com.food.ordering.system.kotlin.order.service.domain.event.OrderPaidEvent
+import com.food.ordering.system.kotlin.order.service.domain.outbox.model.approval.OrderApprovalEventPayload
+import com.food.ordering.system.kotlin.order.service.domain.outbox.model.approval.OrderApprovalEventProduct
 import com.food.ordering.system.kotlin.order.service.domain.outbox.model.payment.OrderPaymentEventPayload
 import com.food.ordering.system.kotlin.order.service.domain.outbox.scheduler.payment.PaymentOutboxHelper
 import org.springframework.stereotype.Component
@@ -59,6 +63,32 @@ class OrderDataMapper {
             price = orderCreatedEvent.order.price.amount,
             createdAt = orderCreatedEvent.createdAt,
             paymentOrderStatus = PaymentOrderStatus.PENDING.name
+        )
+    }
+
+    fun orderCancelledEventToOrderPaymentEventPayload(orderCancelledEvent: OrderCancelledEvent): OrderPaymentEventPayload {
+        return OrderPaymentEventPayload(
+            customerId = orderCancelledEvent.order.customerId.value.toString(),
+            orderId = orderCancelledEvent.order.id!!.value.toString(),
+            price = orderCancelledEvent.order.price.amount,
+            createdAt = orderCancelledEvent.createdAt,
+            paymentOrderStatus = PaymentOrderStatus.CANCELLED.name
+        )
+    }
+
+    fun orderPaidEventToOrderApprovalEventPayload(orderPaidEvent: OrderPaidEvent): OrderApprovalEventPayload {
+        return OrderApprovalEventPayload(
+            orderId = orderPaidEvent.order.id!!.value.toString(),
+            restaurantId = orderPaidEvent.order.restaurantId.value.toString(),
+            restaurantOrderStatus = RestaurantOrderStatus.PAID.name,
+            products = orderPaidEvent.order.items.map {
+                OrderApprovalEventProduct(
+                    id = it.product.id!!.value.toString(),
+                    quantity = it.quantity,
+                )
+            },
+            price = orderPaidEvent.order.price.amount,
+            createdAt = orderPaidEvent.createdAt
         )
     }
 

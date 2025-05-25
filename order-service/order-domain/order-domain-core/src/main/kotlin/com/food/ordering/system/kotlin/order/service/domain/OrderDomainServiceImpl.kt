@@ -1,12 +1,12 @@
 package com.food.ordering.system.kotlin.order.service.domain
 
-import com.food.ordering.system.kotlin.domain.event.publisher.DomainEventPublisher
 import com.food.ordering.system.kotlin.order.service.domain.entity.Order
 import com.food.ordering.system.kotlin.order.service.domain.entity.Product
 import com.food.ordering.system.kotlin.order.service.domain.entity.Restaurant
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderCancelledEvent
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderCreatedEvent
 import com.food.ordering.system.kotlin.order.service.domain.event.OrderPaidEvent
+import com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -18,33 +18,22 @@ class OrderDomainServiceImpl() : OrderDomainService {
 
     override fun validateAndInitiateOrderMethod(
         order: Order,
-        restaurant: Restaurant,
-        orderCreatedEventDomainEventPublisher: DomainEventPublisher<OrderCreatedEvent>
+        restaurant: Restaurant
     ): OrderCreatedEvent {
         validateRestaurant(restaurant);
         setOrderProductInformation(order, restaurant)
         order.validateOrder()
         order.initializeOrder()
         logger.info { "Order with id: ${order.id!!.value} is initiated" }
-        return OrderCreatedEvent(
-            order,
-            ZonedDateTime.now(ZoneId.of(UTC)),
-            orderCreatedEventDomainEventPublisher
-        )
-
+        return OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)))
     }
 
     override fun payOrder(
-        order: Order,
-        orderPaidEventDomainEventPublisher: DomainEventPublisher<OrderPaidEvent>
+        order: Order
     ): OrderPaidEvent {
         order.pay()
         logger.info { "Order with id: ${order.id!!.value} is paid" }
-        return OrderPaidEvent(
-            order,
-            ZonedDateTime.now(ZoneId.of(UTC)),
-            orderPaidEventDomainEventPublisher
-        )
+        return OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTC)))
     }
 
     override fun approvedOrder(order: Order) {
@@ -69,7 +58,7 @@ class OrderDomainServiceImpl() : OrderDomainService {
 
     private fun validateRestaurant(restaurant: Restaurant) {
         if (!restaurant.active) {
-            throw com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException(
+            throw OrderDomainException(
                 "Restaurant with id " + restaurant.id!!.value
                         + " is currently not active!"
             )

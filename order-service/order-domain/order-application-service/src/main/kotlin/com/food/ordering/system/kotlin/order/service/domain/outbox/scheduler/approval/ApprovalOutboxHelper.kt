@@ -1,6 +1,10 @@
 package com.food.ordering.system.kotlin.order.service.domain.outbox.scheduler.approval
 
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.food.ordering.system.kotlin.domain.valueobject.OrderStatus
 import com.food.ordering.system.kotlin.order.service.domain.exception.OrderDomainException
+import com.food.ordering.system.kotlin.order.service.domain.outbox.model.approval.OrderApprovalEventPayload
 import com.food.ordering.system.kotlin.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage
 import com.food.ordering.system.kotlin.order.service.domain.ports.output.repository.ApprovalOutboxRepository
 import com.food.ordering.system.kotlin.outbox.OutboxStatus
@@ -13,7 +17,8 @@ import java.util.*
 
 @Component
 open class ApprovalOutboxHelper(
-    val approvalOutboxRepository: ApprovalOutboxRepository
+    val approvalOutboxRepository: ApprovalOutboxRepository,
+    val objectMapper: ObjectMapper,
 ) {
     private val logger = KotlinLogging.logger { }
 
@@ -63,5 +68,36 @@ open class ApprovalOutboxHelper(
             outboxStatus,
             *sagaStatus
         )
+    }
+
+    @Transactional
+    open fun saveApprovalOutboxMessage(
+        orderApprovalEventPayload: OrderApprovalEventPayload,
+        orderStatus: OrderStatus,
+        sagaStatus: SagaStatus,
+        outboxStatus: OutboxStatus,
+        sagaId: UUID
+    ) {
+        save(
+            OrderApprovalOutboxMessage(
+                id = UUID.randomUUID(),
+                sagaId = sagaId,
+                createdAt = orderApprovalEventPayload.createdAt,
+                type = SagaConstants.ORDER_SAGA_NAME,
+                payload = createPayload(orderApprovalEventPayload),
+                orderStatus = orderStatus,
+                sagaStatus = sagaStatus,
+                outboxStatus = outboxStatus
+            )
+        )
+    }
+
+    private fun createPayload(orderApprovalEventPayload: OrderApprovalEventPayload): String? {
+        try {
+            return objectMapper.writeValueAsString(orderApprovalEventPayload)
+        } catch (e: JsonProcessingException) {
+            logger.error { "Could not convert order approval event payload to json: ${orderApprovalEventPayload.orderId}" }
+            throw OrderDomainException("Could not convert order approval event payload to json: ${orderApprovalEventPayload.orderId}")
+        }
     }
 }

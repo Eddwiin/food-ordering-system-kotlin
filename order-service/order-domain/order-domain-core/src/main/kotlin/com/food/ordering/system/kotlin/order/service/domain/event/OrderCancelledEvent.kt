@@ -6,8 +6,4 @@ import java.time.ZonedDateTime
 class OrderCancelledEvent(
     override val order: Order,
     override val createdAt: ZonedDateTime,
-) : OrderEvent(order, createdAt) {
-    override fun fire() {
-        TODO("Not yet implemented")
-    }
-}
+) : OrderEvent(order, createdAt)
